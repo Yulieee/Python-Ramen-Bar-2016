@@ -1,0 +1,34 @@
+##########################
+# phrase-structure rules #
+##########################
+
+# basic sentence structures
+S -> NP[NTYPE=orderer] VP[VTYPE=want]
+S -> VP[VTYPE=give, -MODAL]
+S -> M NP[NTYPE=orderer] VP[VTYPE=want, -MODAL]
+S -> M NP[NTYPE=ordertaker] VP[VTYPE=give, -MODAL]
+S -> NP[NTYPE=orderitem]
+
+# noun phrases
+NP[NTYPE=?t] -> Pronoun[NTYPE=?t]
+
+# adding modals to verb phrases
+VP[VTYPE=?t, -MODAL] -> Vbar[VTYPE=?t]
+VP[VTYPE=?t, +MODAL] -> M Vbar[VTYPE=?t]
+
+# the verb phrases (vbars) themselves
+Vbar[VTYPE=want] -> V[VTYPE=want] NP[NTYPE=orderitem]
+Vbar[VTYPE=give] -> V[VTYPE=give] NP[NTYPE=orderer] NP[NTYPE=orderitem]
+
+###################
+# lexical entries #
+###################
+
+Pronoun[NTYPE=orderer] -> "i" | "i'll" | "me" | "he" | "he'll" | "him" | "she" | "she'll" | "her" | "we" | "us" | "let's" | "let_me"
+Pronoun[NTYPE=ordertaker] -> "you"
+Pronoun -> "it" | "them"
+
+M -> "would" | "will" | "could" | "can" | "do" | "should" | "shall" | "may" | "might"
+
+V[VTYPE=want] -> "want" | "wants" | "like" | "likes" | "have" | "has" | "need" | "needs" | "get" | "gets" | "take" | "takes"
+V[VTYPE=give] -> "give" | "gives" | "make" | "makes" | "get" | "gets"
