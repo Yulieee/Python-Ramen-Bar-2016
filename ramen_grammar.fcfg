@@ -7,22 +7,37 @@ S -> NP[NTYPE=orderer] VP[VTYPE=want]
 S -> VP[VTYPE=give, -MODAL]
 S -> M NP[NTYPE=orderer] VP[VTYPE=want, -MODAL]
 S -> M NP[NTYPE=ordertaker] VP[VTYPE=give, -MODAL]
-S -> NP[NTYPE=orderitem]
+S -> OI
+
+# macro order items
+OI[+CONJ] -> OI[-CONJ] CJ OI
+OI[+CONJ] -> OI[-CONJ] OI[+CONJ]
+OI -> NP[NTYPE=drink]
+OI -> NP[NTYPE=app]
+OI -> NP[NTYPE=broth]
+
 
 # noun phrases
 NP[NTYPE=?t] -> Pronoun[NTYPE=?t]
+NP[NTYPE=?t]-> N[NTYPE=?t]
+NP[NTYPE=?t]-> Det N[NTYPE=?t]
+
 
 # adding modals to verb phrases
 VP[VTYPE=?t, -MODAL] -> Vbar[VTYPE=?t]
 VP[VTYPE=?t, +MODAL] -> M Vbar[VTYPE=?t]
 
 # the verb phrases (vbars) themselves
-Vbar[VTYPE=want] -> V[VTYPE=want] NP[NTYPE=orderitem]
-Vbar[VTYPE=give] -> V[VTYPE=give] NP[NTYPE=orderer] NP[NTYPE=orderitem]
+Vbar[VTYPE=want] -> V[VTYPE=want] OI
+Vbar[VTYPE=give] -> V[VTYPE=give] NP[NTYPE=orderer] OI
 
 ###################
 # lexical entries #
 ###################
+
+Det -> "a" | "an" | "one" | "2" | "another" | "the" | "two" | "three" | "four" | "five" | "six" | "seven" | "eight" | "nine" | "ten" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "some"
+
+CJ -> "and" | "plus" | "with" | "also" | "as_well_as" | "in_addition_to" 
 
 Pronoun[NTYPE=orderer] -> "i" | "i'll" | "me" | "he" | "he'll" | "him" | "she" | "she'll" | "her" | "we" | "us" | "let's" | "let_me"
 Pronoun[NTYPE=ordertaker] -> "you"
@@ -32,3 +47,16 @@ M -> "would" | "will" | "could" | "can" | "do" | "does" | "should" | "shall" | "
 
 V[VTYPE=want] -> "want" | "wants" | "like" | "likes" | "have" | "has" | "need" | "needs" | "get" | "gets" | "take" | "takes"
 V[VTYPE=give] -> "give" | "gives" | "make" | "makes" | "get" | "gets"
+
+N[NTYPE=broth]->"shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" | "shios" | "misos" | "shoyus" | "tamkatsus" | "vegans" 
+
+N[NTYPE=protein]->"beef"| "tofu" | "pork" | "chicken" | "vegetable" | "vegetables" | "veggie" | "veggies"
+
+N[NTYPE=toppings]-> "egg" | "tamagoyaki" | "fish_cake" | "fish-cake" | "fish_cakes" | "fish-cakes"
+
+N[NTYPE=sauce]->"chili_oil" | "sriracha" | "gyoza_sauce" | "gyoza" | "sriracha_sauce" | "chili_sauce" | "soy_sauce" | "soy"
+
+N[NTYPE=app]-> "gyoza" | "dumplings" |"edamame" | "spring_roll" | "spring_rolls" | "egg_roll" | "egg_rolls" | "squid_balls" | "squid_ball" | "takoyaki" 
+
+N[NTYPE=drink]-> "coke" | "cola" | "coca-cola" | "diet-coke" | "diet_coca-cola" | "coca_cola" | "diet_coca_cola" | "sprite" | "sprites" | "cokes" | "colas" | "coca-colas" | "diet-cokes" | "diet_coca-colas" | "coca_colas" | "diet_coca_colas" | "minute-maid_lemonade" | "minute_maid_lemonade" | "minute_maid" | "minute-maid" | "lemonade" | "minute-maid_lemonades" | "minute_maid_lemonades" | "minute_maids" | "minute-maids" | "lemonades" | "sencha_tea" | "jasmine_tea" | "bancha_tea" | "sencha" | "jasmine" | "bancha" | "sencha_teas" | "jasmine_teas" | "bancha_teas" | "senchas" | "jasmines" | "banchas" 
+
