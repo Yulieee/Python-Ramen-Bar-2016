@@ -28,7 +28,7 @@ Pronoun[NTYPE=orderer] -> "i" | "i'll" | "me" | "he" | "he'll" | "him" | "she" |
 Pronoun[NTYPE=ordertaker] -> "you"
 Pronoun -> "it" | "them"
 
-M -> "would" | "will" | "could" | "can" | "do" | "should" | "shall" | "may" | "might"
+M -> "would" | "will" | "could" | "can" | "do" | "does" | "should" | "shall" | "may" | "might"
 
 V[VTYPE=want] -> "want" | "wants" | "like" | "likes" | "have" | "has" | "need" | "needs" | "get" | "gets" | "take" | "takes"
 V[VTYPE=give] -> "give" | "gives" | "make" | "makes" | "get" | "gets"
