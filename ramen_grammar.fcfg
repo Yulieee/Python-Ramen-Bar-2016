@@ -10,45 +10,66 @@ S -> M NP[NTYPE=ordertaker] VP[VTYPE=give, -MODAL]
 S -> OI
 
 # macro order items
+
 OI[+CONJ] -> OI[-CONJ] CJ OI
 OI[+CONJ] -> OI[-CONJ] OI[+CONJ]
+OI[+CONJ] -> OI[-CONJ] CJ OI[-CONJ] CJ OI 
+ 
 OI -> NP[NTYPE=drink]
 OI -> NP[NTYPE=app]
 OI -> NP[NTYPE=broth]
-
 
 # noun phrases
 NP[NTYPE=?t] -> Pronoun[NTYPE=?t]
 NP[NTYPE=?t]-> N[NTYPE=?t]
 NP[NTYPE=?t]-> Det N[NTYPE=?t]
+NP[NTYPE=?t] -> Det JJ N[NTYPE=?t] PP 
+NP[NTYPE=?t] -> JJ N[NTYPE=?t] PP
+NP[NTYPE=?t] -> Det N[NTYPE=?t] PP
+NP[NTYPE=?t] -> N[NTYPE=?t] PP
 
+
+#prep phrases 
+PP[PTYPE=count] -> "of" NP
+PP[PTYPE=addon] -> P NP
 
 # adding modals to verb phrases
 VP[VTYPE=?t, -MODAL] -> Vbar[VTYPE=?t]
 VP[VTYPE=?t, +MODAL] -> M Vbar[VTYPE=?t]
+VP[VTYPE=?t, +MODAL] -> M V[VTYPE=?t] Vbar[VTYPE=inf]
+VP[VTYPE=?t, -MODAL] -> V[VTYPE=?t] Vbar[VTYPE=inf]
 
 # the verb phrases (vbars) themselves
 Vbar[VTYPE=want] -> V[VTYPE=want] OI
 Vbar[VTYPE=give] -> V[VTYPE=give] NP[NTYPE=orderer] OI
+Vbar[VTYPE=inf] -> V[VTYPE=inf] OI
 
 ###################
 # lexical entries #
 ###################
 
-Det -> "a" | "an" | "one" | "2" | "another" | "the" | "two" | "three" | "four" | "five" | "six" | "seven" | "eight" | "nine" | "ten" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "some"
+Det -> "a" | "an" | "2" | "another" | "the" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "some"
 
 CJ -> "and" | "plus" | "with" | "also" | "as_well_as" | "in_addition_to" 
 
 Pronoun[NTYPE=orderer] -> "i" | "i'll" | "me" | "he" | "he'll" | "him" | "she" | "she'll" | "her" | "we" | "us" | "let's" | "let_me"
+
 Pronoun[NTYPE=ordertaker] -> "you"
+
 Pronoun -> "it" | "them"
 
 M -> "would" | "will" | "could" | "can" | "do" | "does" | "should" | "shall" | "may" | "might"
 
+
 V[VTYPE=want] -> "want" | "wants" | "like" | "likes" | "have" | "has" | "need" | "needs" | "get" | "gets" | "take" | "takes"
+
 V[VTYPE=give] -> "give" | "gives" | "make" | "makes" | "get" | "gets"
 
-N[NTYPE=broth]->"shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" | "shios" | "misos" | "shoyus" | "tamkatsus" | "vegans" 
+V[VTYPE=inf] -> "to_order" 
+
+N[NTYPE=Cnouns] -> "bowl" | "bowls" | "plate" | "plates" | "cup" | "cups" | "glass" | "glasses" | "serving" | "servings" | "platter" | "platters" | "piece" | "pieces" | "skewer" | "skewers" | "packet" | "packets" | "thing" | "things" | "order" | "orders" 
+
+N[NTYPE=broth]->"shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" | "shios" | "misos" | "shoyus" | "tamkatsus" | "vegans" | "ramen"  
 
 N[NTYPE=protein]->"beef"| "tofu" | "pork" | "chicken" | "vegetable" | "vegetables" | "veggie" | "veggies"
 
@@ -59,4 +80,3 @@ N[NTYPE=sauce]->"chili_oil" | "sriracha" | "gyoza_sauce" | "gyoza" | "sriracha_s
 N[NTYPE=app]-> "gyoza" | "dumplings" |"edamame" | "spring_roll" | "spring_rolls" | "egg_roll" | "egg_rolls" | "squid_balls" | "squid_ball" | "takoyaki" 
 
 N[NTYPE=drink]-> "coke" | "cola" | "coca-cola" | "diet-coke" | "diet_coca-cola" | "coca_cola" | "diet_coca_cola" | "sprite" | "sprites" | "cokes" | "colas" | "coca-colas" | "diet-cokes" | "diet_coca-colas" | "coca_colas" | "diet_coca_colas" | "minute-maid_lemonade" | "minute_maid_lemonade" | "minute_maid" | "minute-maid" | "lemonade" | "minute-maid_lemonades" | "minute_maid_lemonades" | "minute_maids" | "minute-maids" | "lemonades" | "sencha_tea" | "jasmine_tea" | "bancha_tea" | "sencha" | "jasmine" | "bancha" | "sencha_teas" | "jasmine_teas" | "bancha_teas" | "senchas" | "jasmines" | "banchas" 
-
