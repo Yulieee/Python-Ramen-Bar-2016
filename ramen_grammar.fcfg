@@ -91,6 +91,12 @@ P -> "with" |"aboard" |"amid" | "among" | "on_top_of" | "inside" | "plus"
 
 Pronoun -> "it" | "them"
 
+JJ[JTYPE=size]-> "large" | "large_size" | "whole" | "whole_size" | "big" | "big_size" | "jumbo" | "jumbo_size" | "full" | "full_size" | "regular" | "regular_size" | "half" | "half_size" | "small" | "small_size" | "really"
+
+JJ[JTYPE=qty]-> "extra" | "lot_of" | "lots_of" | "more" | "some" | "some_more" | "another"
+
+JJ[JTYPE=broth]-> "shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" | "shios" | "misos" | "shoyus" | "tamkatsus" | "vegans" 
+
 M -> "would" | "will" | "could" | "can" | "do" | "does" | "should" | "shall" | "may" | "might"
 
 V[VTYPE=want] -> "want" | "wants" | "like" | "likes" | "have" | "has" | "need" | "needs" | "get" | "gets" | "take" | "takes"
