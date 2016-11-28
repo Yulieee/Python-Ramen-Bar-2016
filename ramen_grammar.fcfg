@@ -8,6 +8,7 @@ S -> VP[VTYPE=give, -MODAL]
 S -> M NP[NTYPE=orderer] VP[VTYPE=want, -MODAL]
 S -> M NP[NTYPE=ordertaker] VP[VTYPE=give, -MODAL]
 S -> OI
+S -> S CONJ S
 
 # complete orders
 OI[+CONJ] -> OI[-CONJ] CJ OI
@@ -18,6 +19,10 @@ OI[+CONJ] -> OI[-CONJ] CJ OI[-CONJ] CJ OI
 OI -> NP[NTYPE=drink]
 OI -> NP[NTYPE=app]
 OI -> NP[NTYPE=broth]
+OI -> NP[NTYPE=Cnouns]
+
+#adjective recursion
+JJ[JTYPE=?t] -> JJ[JTYPE=?t] JJ[JTYPE=?t]
 
 # noun phrases
 
@@ -28,7 +33,9 @@ NP[NTYPE=?t] -> Pronoun[NTYPE=?t]
 NP[NTYPE=?t]-> N[NTYPE=?t, CONT=NO]
 
 # ex: "big miso"
-NP[NTYPE=?t] -> JJ N[NTYPE=?t, CONT=NO]
+NP[NTYPE=?t] -> JJ N[NTYPE=?t, CONT=NO, +MACRO]
+NP[NTYPE=?t] -> JJ[JTYPE=qty] N[NTYPE=?t, CONT=NO, -MACRO]
+
 
 # ex:  "a miso"
 NP[NTYPE=?t]-> Det N[NTYPE=?t, CONT=NO]
@@ -38,11 +45,11 @@ NP[NTYPE=?t] -> N[NTYPE=?t, CONT=NO]
 
 # ex: "a big bowl of miso"
 NP[NTYPE=?t,CONT=?c] -> Det JJ N[NTYPE=?t,CONT=?c, +MACRO] PP
-NP[NTYPE=?t,CONT=?c] -> Det JJ N[NTYPE=?t,CONT=?c, -MACRO] PP[PTYPE=addon]
+NP[NTYPE=?t,CONT=?c] -> Det JJ[JTYPE=qty] N[NTYPE=?t,CONT=?c, -MACRO] PP[PTYPE=addon]
 
 # ex: "beef bowl with beef"
 NP[NTYPE=?t,CONT=?c] -> JJ N[NTYPE=?t,CONT=?c, +MACRO] PP
-NP[NTYPE=?t,CONT=?c] -> JJ N[NTYPE=?t,CONT=?c, -MACRO] PP[PTYPE=addon]
+NP[NTYPE=?t,CONT=?c] -> JJ[JTYPE=qty] N[NTYPE=?t,CONT=?c, -MACRO] PP[PTYPE=addon]
 
 # ex: a bowl of ramen 
 NP[NTYPE=?t,CONT=?c] -> Det N[NTYPE=?t,CONT=?c, +MACRO] PP 
@@ -80,6 +87,8 @@ Pronoun[NTYPE=orderer] -> "i" | "i'll" | "me" | "he" | "he'll" | "him" | "she" |
 
 Pronoun[NTYPE=ordertaker] -> "you"
 
+P -> "with" |"aboard" |"amid" | "among" | "on_top_of" | "inside" | "plus"
+
 Pronoun -> "it" | "them"
 
 M -> "would" | "will" | "could" | "can" | "do" | "does" | "should" | "shall" | "may" | "might"
@@ -91,10 +100,10 @@ V[VTYPE=give] -> "give" | "gives" | "make" | "makes" | "get" | "gets"
 V[VTYPE=inf] -> "to_order" 
 
 # container nouns, singular
-N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "bowl" | "plate" | "cup" |"glass" |"serving" |"platter" | "piece" | "skewer" | "packet" | "thing" | "order" 
+N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "half" | "full" | "side" | "bowl" | "plate" | "cup" |"glass" |"serving" |"platter" | "piece" | "skewer" | "packet" | "thing" | "order" 
 
 # container nouns, plural
-N[NTYPE=Cnouns, CONT=YES, +MACRO] -> "bowls" | "plates" | "cups" | "glasses" | "servings" | "platters" | "pieces" | "skewers" | "packets" | "things" | "orders" 
+N[NTYPE=Cnouns, CONT=YES, +MACRO] -> "halves" | "fulls" | "sides" | "bowls" | "plates" | "cups" | "glasses" | "servings" | "platters" | "pieces" | "skewers" | "packets" | "things" | "orders" 
 
 # broth nouns, singular
 N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" "ramen"  
@@ -109,10 +118,10 @@ N[NTYPE=protein, CONT=NO,-MACRO]->"beef"| "tofu" | "pork" | "chicken" | "vegetab
 N[NTYPE=protein, CONT=NO,-MACRO]->"beefs"| "tofus" | "porks" | "chickens" | "vegetables" | "veggies" | "vegs"
 
 # toppings nouns, singular
-N[NTYPE=toppings, CONT=NO,-MACRO]-> "egg" | "tamagoyaki" | "fish_cake" | "fish-cake" | "naruto" | "mushroom" | "bean_sprout" | "sprout" |  "kimchi" | "bok_choy" | "seaweed" | "sea_weed" | "nori" 
+N[NTYPE=toppings, CONT=NO,-MACRO]-> "egg" | "tamagoyaki" | "fishcake" | "fish_cake" | "fish-cake" | "naruto" | "mushroom" | "bean_sprout" | "sprout" |  "kimchi" | "bok_choy" | "seaweed" | "sea_weed" | "nori" 
 
 # toppings nouns, plural
-N[NTYPE=toppings, CONT=NO,-MACRO]-> "eggs" | "tamagoyakis" | "fish_cakes" | "fish-cakes" | "narutos" | "mushrooms" | "bean_sprouts" | "sprouts" |  "kimchis" | "bok_choys" | "seaweeds" | "sea_weeds" | "noris" 
+N[NTYPE=toppings, CONT=NO,-MACRO]-> "eggs" | "tamagoyakis" | "fishcakes" | "fish_cakes" | "fish-cakes" | "narutos" | "mushrooms" | "bean_sprouts" | "sprouts" |  "kimchis" | "bok_choys" | "seaweeds" | "sea_weeds" | "noris" 
 
 # sauce nouns, singular
 N[NTYPE=sauce, CONT=NO,-MACRO]->"chili_oil" | "sriracha" | "gyoza_sauce" | "gyoza" | "sriracha_sauce" | "chili_sauce" | "soy_sauce" | "soy"
