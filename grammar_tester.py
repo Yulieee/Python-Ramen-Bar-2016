@@ -28,13 +28,24 @@ num_conversion_dict = {
     'twenty': 20,
     }
 
+phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to'
+
+                    'diet coke', 'diet cola', 'coka cola', 'minute maid', 'minute made', 'minute maid lemonade', 'sencha tea', 'jasmine tea', 'bancha tea'
+
+                    'spring roll', 'egg roll', 'squid ball', 'chili oil', 'soy sauce', 'gyoza sauce', 'sriracha sauce', 'fish cake']
+
 def preprocess(sentence):
     s = sentence.lower()
     s = re.sub(r'[\.,;?!"]', '', s)
+    s = re.sub(r'-', ' ', s)
     s = re.sub(r'please', '', s)
-    s = re.sub(r'with no', 'with_no', s)
-    s = re.sub(r'let me', 'let_me', s)
+
+    # unify phrases to compound tokens
+    for phrase in phrases_to_unify:
+        new_phrase = re.sub(r' ', '_', phrase)
+        s = re.sub(phrase, new_phrase, s)
     s = s.split()
+    
     #convert worded numbers to numerals
     for word in s:
         if word in num_conversion_dict.keys():
