@@ -32,8 +32,10 @@ num_conversion_dict = {
     'twenty': '20',
     }
 
-phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to order', 'to get', 'to buy', 'to have', 'to eat'
-
+phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to order', 'to get', 'to buy', 'to have', 'to eat',
+                    
+                    'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 'full size', 'regular size', 'some more', 'small size', 'half size',
+                    
                     'diet coke', 'diet cola', 'coka cola', 'minute maid', 'minute made', 'minute maid lemonade', 'sencha tea', 'jasmine pearl tea', 'jasmine pearl', 'jasmine tea', 'bancha tea', 'pearl tea', 
 
                     'spring roll', 'egg roll', 'squid ball', 'chili oil', 'chili sauce', 'soy sauce', 'gyoza sauce', 'sriracha sauce', 'fish cake', 'bok choy', 'sea weed', 'bean sprout', ]
