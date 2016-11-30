@@ -17,7 +17,7 @@ class App(Frame):
         self.sentence_entry = Entry()
         self.sentence_entry.grid(row = 1, column = 0, columnspan = 2, sticky = W+E)
         
-        self.menu_image = PhotoImage(file = 'Menu.png')
+        self.menu_image = PhotoImage(file = 'menu.gif')
         self.menu_image_label = Label(image = self.menu_image)
         self.menu_image_label.grid(row = 2, column = 1)
         
