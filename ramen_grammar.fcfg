@@ -103,7 +103,7 @@ V[VTYPE=want] -> "want" | "wants" | "like" | "likes" | "have" | "has" | "need" |
 
 V[VTYPE=give] -> "give" | "gives" | "make" | "makes" | "get" | "gets"
 
-V[VTYPE=inf] -> "to_order" | "to_get" | "to_buy" | "to_have" | 
+V[VTYPE=inf] -> "to_order" | "to_get" | "to_buy" | "to_have" | "to_eat"
 
 # container nouns, singular
 N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "half" | "full" | "side" | "bowl" | "plate" | "cup" |"glass" |"serving" |"platter" | "piece" | "skewer" | "packet" | "thing" | "order" 
