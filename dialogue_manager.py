@@ -45,6 +45,8 @@ def preprocess(sentence):
     s = re.sub(r'[\.,;?!"]', '', s)
     s = re.sub(r'-', ' ', s)
     s = re.sub(r'please', '', s)
+    s = re.sub(r'thanks', '', s)
+    s = re.sub(r'thank you', '', s)
 
     # unify phrases to compound tokens
     for phrase in phrases_to_unify:
