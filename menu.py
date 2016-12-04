@@ -1,4 +1,4 @@
-broths = {'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'}
+broths = {'shio', 'shoyu', 'miso', 'tontaksu', 'vegan'}
 spiciness = {1, 2, 3, 4, 5}
 proteins = {'tofu', 'beef', 'pork', 'chicken', 'vegetable'}
 toppings = {'egg', 'fish_cake', 'mushroom', 'bean_sprouts', 'kimchi', 'bok_choy', 'seaweed'}
