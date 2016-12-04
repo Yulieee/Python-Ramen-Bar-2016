@@ -33,12 +33,14 @@ num_conversion_dict = {
     }
 
 phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to order', 'to get', 'to buy', 'to have', 'to eat',
-                    
-                    'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 'full size', 'regular size', 'some more', 'small size', 'half size',
-                    
-                    'diet coke', 'diet cola', 'coka cola', 'minute maid', 'minute made', 'minute maid lemonade', 'sencha tea', 'jasmine pearl tea', 'jasmine pearl', 'jasmine tea', 'bancha tea', 'pearl tea', 
-
-                    'spring roll', 'egg roll', 'squid ball', 'chili oil', 'chili sauce', 'soy sauce', 'gyoza sauce', 'sriracha sauce', 'fish cake', 'bok choy', 'sea weed', 'bean sprout', ]
+                    'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 
+                    'diet coke', 'diet cokes', 'diet cola', 'diet colas', 'coka cola', 'minute maid', 'minute made', 
+                    'minute maid lemonade', 'minute maid lemonades', 'sencha tea', 'sencha teas',
+                    'jasmine pearl tea', 'jasmine pearl teas' 'jasmine pearl', 'jasmine pearls', 'jasmine tea', 'jasmine teas', 
+                    'bancha tea', 'bancha teas', 'pearl tea', 'pearl teas', 'spring roll', 'spring rolls',
+                    'egg roll', 'egg rolls', 'squid ball', 'squid balls', 'chili oil', 'chili oil', 'chili sauce', 'chili sauces', 
+                    'soy sauce', 'soy sauces', 'gyoza sauce', 'gyoza sauces', 'sriracha sauce', 'sriracha sauces', 
+                    'fish cake', 'fish cakes', 'bok choy','bok choys', 'sea weed', 'sea weeds', 'bean sprout', 'bean sprouts']
 
 def preprocess(sentence):
     s = sentence.lower()
