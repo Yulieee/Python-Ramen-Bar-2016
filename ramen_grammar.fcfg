@@ -83,13 +83,11 @@ PP[PTYPE=addon] -> P NP[CONT=NO]
 # adding modals to verb phrases
 VP[VTYPE=?t, -MODAL] -> Vbar[VTYPE=?t]
 VP[VTYPE=?t, +MODAL] -> M Vbar[VTYPE=?t]
-VP[VTYPE=?t, +MODAL] -> M V[VTYPE=?t] Vbar[VTYPE=inf]
-VP[VTYPE=?t, -MODAL] -> V[VTYPE=?t] Vbar[VTYPE=inf]
+
 
 # the verb phrases (vbars) themselves
 Vbar[VTYPE=want] -> V[VTYPE=want] OI
 Vbar[VTYPE=give] -> V[VTYPE=give] NP[NTYPE=orderer] OI
-Vbar[VTYPE=inf] -> V[VTYPE=inf] OI
 
 ###################
 # lexical entries #
