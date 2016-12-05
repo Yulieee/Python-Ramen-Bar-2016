@@ -32,10 +32,25 @@ NP[NTYPE=?t] -> Pronoun[NTYPE=?t]
 # single nouns can be NPs
 NP[NTYPE=?t]-> N[NTYPE=?t, CONT=NO]
 
+# compound nouns
+
+# ex: "a JJ ramen bowl"
+NP[NTYPE=?t, CONT=YES]-> Det N N[NTYPE=Cnouns, CONT=YES]
+NP[NTYPE=?t, CONT=YES]-> Det JJ N N[NTYPE=Cnouns, CONT=YES]
+NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
+NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
+
+
+# ex: "a JJ ramen bowl with bean sprouts" 
+NP[NTYPE=?t, CONT=YES]-> Det N N[NTYPE=Cnouns, CONT=YES] PP
+NP[NTYPE=?t, CONT=YES]-> Det JJ N N[NTYPE=Cnouns, CONT=YES] PP[PTYPE=addon]
+
+# ex: "shio ramen" 
+NP[NTYPE=?t]-> N[NTYPE=broth, CONT=NO] N[NTYPE=?t, CONT=NO]
+
 # ex: "big miso"
 NP[NTYPE=?t] -> JJ N[NTYPE=?t, CONT=NO, +MACRO]
 NP[NTYPE=?t] -> JJ[JTYPE=qty] N[NTYPE=?t, CONT=NO, -MACRO]
-
 
 # ex:  "a miso"
 NP[NTYPE=?t]-> Det N[NTYPE=?t, CONT=NO]
@@ -97,6 +112,8 @@ JJ[JTYPE=qty]-> "extra" | "lot_of" | "lots_of" | "more" | "some" | "some_more" |
 
 JJ[JTYPE=broth]-> "shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" | "shios" | "misos" | "shoyus" | "tamkatsus" | "vegans" 
 
+JJ[JTYPE=spice] -> "mild" | "medium" | "hot" | "spicy" 
+
 M -> "would" | "will" | "could" | "can" | "do" | "does" | "should" | "shall" | "may" | "might"
 
 V[VTYPE=want] -> "want" | "wants" | "like" | "likes" | "have" | "has" | "need" | "needs" | "get" | "gets" | "take" | "takes"
@@ -111,11 +128,14 @@ N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "half" | "full" | "side" | "bowl" | "plate" 
 # container nouns, plural
 N[NTYPE=Cnouns, CONT=YES, +MACRO] -> "halves" | "fulls" | "sides" | "bowls" | "plates" | "cups" | "glasses" | "servings" | "platters" | "pieces" | "skewers" | "packets" | "things" | "orders" 
 
+# ramen 
+N[NTYPE=?t] -> "ramen" | "ramens" 
+
 # broth nouns, singular
-N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" "ramen"  
+N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tonkatsu" | "vegan" 
 
 # broth nouns, plural
-N[NTYPE=broth, CONT=NO,+MACRO]-> "shios" | "misos" | "shoyus" | "tamkatsus" | "vegans" | "ramens"
+N[NTYPE=broth, CONT=NO,+MACRO]-> "shios" | "misos" | "shoyus" | "tonkatsus" | "vegans" 
 
 # protein nouns, singualr
 N[NTYPE=protein, CONT=NO,-MACRO]->"beef"| "tofu" | "pork" | "chicken" | "vegetable" | "veggie" | "veg"
