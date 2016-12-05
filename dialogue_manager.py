@@ -37,7 +37,7 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to ord
                     'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 'full size', 'regular size',
                     'some more', 'small size', 'half size',
                     
-                    'diet coke', 'diet cola', 'coka cola', 'minute maid', 'minute made', 'minute maid lemonade', 'sencha tea',
+                    'diet coke', 'diet cola', 'coka cola', 'minute made lemonade', 'minute maid lemonade', 'minute maid', 'minute made', 'sencha tea',
                     'jasmine pearl tea', 'jasmine pearl', 'jasmine tea', 'bancha tea', 'pearl tea', 
 
                     'spring roll', 'egg roll', 'squid ball', 'chili oil', 'chili sauce', 'soy sauce', 'gyoza sauce',
