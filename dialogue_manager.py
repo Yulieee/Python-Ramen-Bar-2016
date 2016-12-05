@@ -48,6 +48,18 @@ def preprocess(sentence):
     s = re.sub(r'[\.,;?!"]', '', s)
     s = re.sub(r'-', ' ', s)
     s = re.sub(r'please', '', s)
+    s = re.sub(r'thanks', '', s)
+    s = re.sub(r'thank you', '', s)
+
+    #preprocess out infinitives
+    s_tokens = word_tokenize(s)
+    tags = nltk.pos_tag(s_tokens)
+    for word in s_tokens:
+        if word == 'to':
+            to_index = s_tokens.index(word)
+            #if next word is 'VB', store index in order to del in s
+            if (tags[to_index+1][0]) == 'do':
+                remove_to_index = to_index
 
     # unify phrases to compound tokens
     for phrase in phrases_to_unify:
@@ -61,6 +73,11 @@ def preprocess(sentence):
             numeral = num_conversion_dict[word]
             replace_at_index = s.index(word)
             s[replace_at_index] = numeral
+
+    #remove infinitives at indicies found above
+    del s[remove_to_index] # removes 'to'
+    del s[remove_to_index] # removes 'VB' after 'to'
+
     return s
 
 def parse_sentence(sentence):
