@@ -1,4 +1,5 @@
 import nltk, re
+from nltk import word_tokenize
 from menu import *
 from kitchen import *
 from copy import deepcopy
@@ -32,7 +33,7 @@ num_conversion_dict = {
     'twenty': '20',
     }
 
-phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to order', 'to get', 'to buy', 'to have', 'to eat',
+phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
             
                     'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 'full size', 'regular size',
                     'some more', 'small size', 'half size',
@@ -43,23 +44,15 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to ord
                     'spring roll', 'egg roll', 'squid ball', 'chili oil', 'chili sauce', 'soy sauce', 'gyoza sauce',
                     'sriracha sauce', 'fish cake', 'bok choy', 'sea weed', 'bean sprout', ]
 
+phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
+                        'to buy', 'to eat', 'to add']
+
 def preprocess(sentence):
     s = sentence.lower()
     s = re.sub(r'[\.,;?!"]', '', s)
     s = re.sub(r'-', ' ', s)
-    s = re.sub(r'please', '', s)
-    s = re.sub(r'thanks', '', s)
-    s = re.sub(r'thank you', '', s)
-
-    #preprocess out infinitives
-    s_tokens = word_tokenize(s)
-    tags = nltk.pos_tag(s_tokens)
-    for word in s_tokens:
-        if word == 'to':
-            to_index = s_tokens.index(word)
-            #if next word is 'VB', store index in order to del in s
-            if (tags[to_index+1][0]) == 'do':
-                remove_to_index = to_index
+    for phrase in phrases_to_eliminate:
+        s = re.sub(phrase, '', s)
 
     # unify phrases to compound tokens
     for phrase in phrases_to_unify:
@@ -74,10 +67,6 @@ def preprocess(sentence):
             replace_at_index = s.index(word)
             s[replace_at_index] = numeral
 
-    #remove infinitives at indicies found above
-    del s[remove_to_index] # removes 'to'
-    del s[remove_to_index] # removes 'VB' after 'to'
-
     return s
 
 def parse_sentence(sentence):
@@ -89,10 +78,14 @@ def respond(sentence, parses):
         return "I'm sorry; I don't know what that means."
     
     #user response to "would you like anything else?"
-    elif sentence == 'yes':
+    elif parses[0].leaves() == ['yes']:
         return "What else can I get for you?"
-    #elif sentence == 'no':
-        #return "Your total is: " + somehow display total price of order?
+    elif parses[0].leaves() == ['no']:
+        # check ramen bowls for missing information here...
+        for item in order.items:
+            if isinstance(item, RamenBowl):
+                pass
+        return "Your total is " + str(order.price()) + "."
 
     else:
         response = 'I heard you say "' + sentence + '"\n'
@@ -135,7 +128,6 @@ def respond(sentence, parses):
                 # Check for toppings in the leaves of the tree.
                 for leaf in leaves:
                     if leaf in toppings:
-                        leaf = topping_order
                         new_ramen.add_toppings(leaf)
                 order.add_item(deepcopy(new_ramen))
                 response += "  I've added a ramen bowl to your order."
