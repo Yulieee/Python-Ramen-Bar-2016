@@ -70,6 +70,12 @@ def parse_sentence(sentence):
 def respond(sentence, parses):
     if len(parses) == 0:
         return "I'm sorry; I don't know what that means."
+    
+    #user response to "would you like anything else?"
+    elif sentence == 'yes':
+        return "What else can I get for you?"
+    #elif sentence == 'no':
+        #return "Your total is: " + somehow display total price of order?
 
     else:
         response = 'I heard you say "' + sentence + '"\n'
