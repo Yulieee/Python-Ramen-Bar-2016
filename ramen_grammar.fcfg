@@ -9,6 +9,7 @@ S -> M NP[NTYPE=orderer] VP[VTYPE=want, -MODAL]
 S -> M NP[NTYPE=ordertaker] VP[VTYPE=give, -MODAL]
 S -> OI
 S -> S CONJ S
+S -> R
 
 # complete orders
 OI[+CONJ] -> OI[-CONJ] CJ OI
@@ -166,3 +167,6 @@ N[NTYPE=drink, CONT=NO,-MACRO]-> "coke" | "cola" | "coca-cola" | "diet-coke" | "
 
 #drink nouns, plural
 N[NTYPE=drink,-MACRO]-> "cokes" | "colas" | "coca-colas" | "diet-cokes" | "diet_coca-colas" | "coca_colas" | "diet_coca_colas" | "sprites" |  "minute-maid_lemonades" | "minute_maid_lemonades" | "minute_maids" | "minute-maids" | "lemonades" | "sencha_teas" | "jasmine_teas" | "jasmine_pearl_teas" | "pearl_teas" | "bancha_teas" | "senchas" | "jasmines" | "pearls" | "banchas" 
+
+#user responses
+R -> "yes" | "no"
