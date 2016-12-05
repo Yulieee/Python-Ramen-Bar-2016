@@ -34,14 +34,15 @@ num_conversion_dict = {
     }
 
 phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
-                    'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 
-                    'diet coke', 'diet cokes', 'diet cola', 'diet colas', 'coka cola', 'minute maid', 'minute made', 
-                    'minute maid lemonade', 'minute maid lemonades', 'sencha tea', 'sencha teas',
-                    'jasmine pearl tea', 'jasmine pearl teas' 'jasmine pearl', 'jasmine pearls', 'jasmine tea', 'jasmine teas', 
-                    'bancha tea', 'bancha teas', 'pearl tea', 'pearl teas', 'spring roll', 'spring rolls',
-                    'egg roll', 'egg rolls', 'squid ball', 'squid balls', 'chili oil', 'chili oil', 'chili sauce', 'chili sauces', 
-                    'soy sauce', 'soy sauces', 'gyoza sauce', 'gyoza sauces', 'sriracha sauce', 'sriracha sauces', 
-                    'fish cake', 'fish cakes', 'bok choy','bok choys', 'sea weed', 'sea weeds', 'bean sprout', 'bean sprouts']
+            
+                    'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 'full size', 'regular size',
+                    'some more', 'small size', 'half size',
+                    
+                    'diet coke', 'diet cola', 'coka cola', 'minute maid', 'minute made', 'minute maid lemonade', 'sencha tea',
+                    'jasmine pearl tea', 'jasmine pearl', 'jasmine tea', 'bancha tea', 'pearl tea', 
+
+                    'spring roll', 'egg roll', 'squid ball', 'chili oil', 'chili sauce', 'soy sauce', 'gyoza sauce',
+                    'sriracha sauce', 'fish cake', 'bok choy', 'sea weed', 'bean sprout', ]
 
 phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
                         'to buy', 'to eat', 'to add']
@@ -72,6 +73,9 @@ def parse_sentence(sentence):
     processed = preprocess(sentence)
     return [tree for tree in parser.parse(processed)]
 
+def fill_missing_attributes():
+    
+
 def respond(sentence, parses):
     if len(parses) == 0:
         return "I'm sorry; I don't know what that means."
@@ -81,9 +85,18 @@ def respond(sentence, parses):
         return "What else can I get for you?"
     elif parses[0].leaves() == ['no']:
         # check ramen bowls for missing information here...
+        # fill missing parts of order (e.g. spiciness, protein)
         for item in order.items:
             if isinstance(item, RamenBowl):
-                pass
+                if item.broth == None:
+                    return = 'What kind of broth do you want? '
+                if item.spiciness == None:
+                    return = 'How spicy do you want your ramen?\nMild, Medium, or Hot.'
+                if item.protein == None:
+                    return = 'Which protein would you like in your ramen?\nBeef, Pork, Chicken, Tofu, Vegetables'
+                if item.toppings == None:
+                    return = 'Would you like any toppings in your ramen?\nEggs,  Tamagoyakis, Fishcakes (Narutos), Mushrooms, Bean sprouts, Kimchi, Bok choy, Seaweed, Nori'
+                
         return "Your total is " + str(order.price()) + "."
 
     else:
@@ -142,8 +155,8 @@ def respond(sentence, parses):
                 new_drink = Drink(item_word)
                 order.add_item(deepcopy(new_drink))
                 response += "  I've added a " + item_word + " to your order."
-
-        response += "  Would you like anything else?"
+               
+        response += "  Would you like anything else?"                    
         return response
 
 def get_OIs(parse):
@@ -162,4 +175,3 @@ def get_OIs(parse):
                 more_ois = get_OIs(node)
                 ois = ois + more_ois
     return ois
-
