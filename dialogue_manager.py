@@ -1,4 +1,5 @@
 import nltk, re
+from nltk import word_tokenize
 from menu import *
 from kitchen import *
 from copy import deepcopy
@@ -32,7 +33,7 @@ num_conversion_dict = {
     'twenty': '20',
     }
 
-phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to order', 'to get', 'to buy', 'to have', 'to eat',
+phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
                     'lot of', 'lots of', 'on top of', 'large size', 'big size', 'jumbo size', 
                     'diet coke', 'diet cokes', 'diet cola', 'diet colas', 'coka cola', 'minute maid', 'minute made', 
                     'minute maid lemonade', 'minute maid lemonades', 'sencha tea', 'sencha teas',
@@ -42,13 +43,15 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to', 'to ord
                     'soy sauce', 'soy sauces', 'gyoza sauce', 'gyoza sauces', 'sriracha sauce', 'sriracha sauces', 
                     'fish cake', 'fish cakes', 'bok choy','bok choys', 'sea weed', 'sea weeds', 'bean sprout', 'bean sprouts']
 
+phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
+                        'to buy', 'to eat', 'to add']
+
 def preprocess(sentence):
     s = sentence.lower()
     s = re.sub(r'[\.,;?!"]', '', s)
     s = re.sub(r'-', ' ', s)
-    s = re.sub(r'please', '', s)
-    s = re.sub(r'thanks', '', s)
-    s = re.sub(r'thank you', '', s)
+    for phrase in phrases_to_eliminate:
+        s = re.sub(phrase, '', s)
 
     # unify phrases to compound tokens
     for phrase in phrases_to_unify:
@@ -62,6 +65,7 @@ def preprocess(sentence):
             numeral = num_conversion_dict[word]
             replace_at_index = s.index(word)
             s[replace_at_index] = numeral
+
     return s
 
 def parse_sentence(sentence):
@@ -71,6 +75,16 @@ def parse_sentence(sentence):
 def respond(sentence, parses):
     if len(parses) == 0:
         return "I'm sorry; I don't know what that means."
+    
+    #user response to "would you like anything else?"
+    elif parses[0].leaves() == ['yes']:
+        return "What else can I get for you?"
+    elif parses[0].leaves() == ['no']:
+        # check ramen bowls for missing information here...
+        for item in order.items:
+            if isinstance(item, RamenBowl):
+                pass
+        return "Your total is " + str(order.price()) + "."
 
     else:
         response = 'I heard you say "' + sentence + '"\n'
@@ -79,6 +93,7 @@ def respond(sentence, parses):
             print(p)
             print()
         parse = parses[0]
+        
         # Get the OIs in the parse.
         order_items = get_OIs(parse)
         # Iterate through the OIs and add the foods they mention to the
@@ -90,15 +105,22 @@ def respond(sentence, parses):
             word_set = set(leaves)
             item_type = 'none'
             item_word = ''
+
+            #broths (and ramen for now)
             if len(word_set & broths) > 0\
-               or len(word_set & proteins) > 0:
-                item_type = 'ramen_bowl'
+               or len(word_set & proteins) > 0\
+                or len(word_set & cont_nouns) > 0:
+                        item_type = 'ramen_bowl'
+            #apps
             elif len(word_set & set(apps.keys())) > 0:
                 item_type = 'app'
                 item_word = list(word_set & set(apps.keys()))[0]
+            #drinks
             elif len(word_set & set(drinks.keys())) > 0:
                 item_type = 'drink'
                 item_word = list(word_set & set(drinks.keys()))[0]
+
+                
             # If the user wants a ramen bowl...
             if item_type == 'ramen_bowl':
                 new_ramen = RamenBowl()
@@ -108,16 +130,19 @@ def respond(sentence, parses):
                         new_ramen.add_toppings(leaf)
                 order.add_item(deepcopy(new_ramen))
                 response += "  I've added a ramen bowl to your order."
+                
             # If the user mentioned an app...
             elif item_type == 'app':
                 new_app = App(item_word)
                 order.add_item(deepcopy(new_app))
                 response += "  I've added a " + item_word + " to your order."
+                
             # If the user mentioned a drink...
             elif item_type == 'drink':
                 new_drink = Drink(item_word)
                 order.add_item(deepcopy(new_drink))
                 response += "  I've added a " + item_word + " to your order."
+
         response += "  Would you like anything else?"
         return response
 
@@ -137,3 +162,4 @@ def get_OIs(parse):
                 more_ois = get_OIs(node)
                 ois = ois + more_ois
     return ois
+
