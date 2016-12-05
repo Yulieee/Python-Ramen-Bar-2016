@@ -11,7 +11,7 @@ sauces = {'chili_oil': {'price': .25},
 apps = {'gyoza': {'price': 7},
         'dumplings': {'price': 5},
         'edamame': {'price': 5},
-        'spring_roll': {'price': 3},
+        'spring_rolls': {'price': 3},
         'egg_roll': {'price': 3},
         'squid_balls': {'price': 7}}
 drinks = {'coke': {'price': 1.5},
