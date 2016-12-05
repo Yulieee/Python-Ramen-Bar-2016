@@ -131,10 +131,10 @@ N[NTYPE=Cnouns, CONT=YES, +MACRO] -> "halves" | "fulls" | "sides" | "bowls" | "p
 N[NTYPE=?t] -> "ramen" | "ramens" 
 
 # broth nouns, singular
-N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tonkatsu" | "vegan" 
+N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tontaksu" | "vegan" | "ramen"  
 
 # broth nouns, plural
-N[NTYPE=broth, CONT=NO,+MACRO]-> "shios" | "misos" | "shoyus" | "tonkatsus" | "vegans" 
+N[NTYPE=broth, CONT=NO,+MACRO]-> "shios" | "misos" | "shoyus" | "tontaksus" | "vegans" | "ramens"
 
 # protein nouns, singualr
 N[NTYPE=protein, CONT=NO,-MACRO]->"beef"| "tofu" | "pork" | "chicken" | "vegetable" | "veggie" | "veg"
@@ -161,10 +161,10 @@ N[NTYPE=app, CONT=NO,-MACRO]-> "gyoza" | "dumpling" |"edamame" | "spring_roll" |
 N[NTYPE=app, CONT=NO,-MACRO]-> "gyozas" | "dumplings" |"edamames" | "spring_rolls" | "egg_rolls" | "squid_balls" | "takoyakis" 
 
 # drink nouns, singular
-N[NTYPE=drink, CONT=NO,-MACRO]-> "coke" | "cola" | "coca-cola" | "diet-coke" | "diet_coca-cola" | "coca_cola" | "diet_coca_cola" | "sprite" |  "minute-maid_lemonade" | "minute_maid_lemonade" | "minute_maid" | "minute-maid" | "lemonade" | "sencha_tea" | "jasmine_tea" | "jasmine_pearl_tea" | "pearl_tea" | "bancha_tea" | "sencha" | "jasmine" | "pearl" | "bancha" | "water"
+N[NTYPE=drink, CONT=NO,-MACRO]-> "coke" | "cola" | "coca-cola" | "diet-coke" | "diet_coke" | "diet_coca-cola" | "coca_cola" | "diet_coca_cola" | "sprite" |  "minute-maid_lemonade" | "minute_maid_lemonade" | "minute_maid" | "minute-maid" | "lemonade" | "sencha_tea" | "jasmine_tea" | "jasmine_pearl_tea" | "pearl_tea" | "bancha_tea" | "sencha" | "jasmine" | "pearl" | "bancha" 
 
 #drink nouns, plural
-N[NTYPE=drink,-MACRO]-> "cokes" | "colas" | "coca-colas" | "diet-cokes" | "diet_coca-colas" | "coca_colas" | "diet_coca_colas" | "sprites" |  "minute-maid_lemonades" | "minute_maid_lemonades" | "minute_maids" | "minute-maids" | "lemonades" | "sencha_teas" | "jasmine_teas" | "jasmine_pearl_teas" | "pearl_teas" | "bancha_teas" | "senchas" | "jasmines" | "pearls" | "banchas" | "waters" 
+N[NTYPE=drink,-MACRO]-> "cokes" | "colas" | "coca-colas" | "diet-cokes" | "diet_cokes" | "diet_coca-colas" | "coca_colas" | "diet_coca_colas" | "sprites" |  "minute-maid_lemonades" | "minute_maid_lemonades" | "minute_maids" | "minute-maids" | "lemonades" | "sencha_teas" | "jasmine_teas" | "jasmine_pearl_teas" | "pearl_teas" | "bancha_teas" | "senchas" | "jasmines" | "pearls" | "banchas" 
 
 #user responses
 R -> "yes" | "no"
