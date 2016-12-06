@@ -1,6 +1,5 @@
 from tkinter import *
 from dialogue_manager import parse_sentence, respond, order
-import PIL
 
 class App(Frame):
    
