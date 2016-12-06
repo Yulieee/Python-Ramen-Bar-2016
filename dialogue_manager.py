@@ -4,6 +4,7 @@ from menu import *
 from kitchen import *
 from copy import deepcopy
 
+
 grammar_filename = 'ramen_grammar.fcfg'
 order = Order()
 parser = nltk.parse.load_parser(grammar_filename)
@@ -139,7 +140,13 @@ def respond(sentence, parses):
             if isinstance(item, RamenBowl):
                 pass
         return "Your total is " + str(order.price()) + "."
-
+    #cyute
+    elif parses[0].leaves() == ['summon', 'mama']:
+        try:
+            import antigravity
+            return "Now what do you want?"
+        except ImportError:
+            return "Eat ramen or go away."        
     else:
         response = 'I heard you say "' + sentence + '"\n'
         for p in parses:

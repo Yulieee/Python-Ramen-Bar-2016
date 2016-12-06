@@ -10,6 +10,7 @@ S -> M NP[NTYPE=ordertaker] VP[VTYPE=give, -MODAL]
 S -> OI
 S -> S CONJ S
 S -> R
+S -> M M
 
 # complete orders
 OI[+CONJ] -> OI[-CONJ] CJ OI
@@ -148,3 +149,6 @@ N[NTYPE=drink, CONT=NO,-MACRO]-> "coke" | "diet_coke" | "sprite" | "lemonade" | 
 
 #user responses
 R -> "yes" | "no"
+
+#easter egg
+M -> "summon" | "mama"
