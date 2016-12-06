@@ -80,6 +80,22 @@ class Drink:
         else:
             return self.drink
 
+class Sauce:
+    
+    def __init__(self, sauce = None):
+        if not (sauce is None or sauce not in sauces):
+            self.sauce = sauce
+    
+    def price(self):
+        price = sauces[self.sauce]['price']
+        return price
+    
+    def __str__(self):
+        if self.sauce is None:
+            return 'NA'
+        else:
+            return self.sauce
+
 class Order:
     
     items = []
@@ -88,7 +104,7 @@ class Order:
         self.items = []
     
     def add_item(self, item):
-        if isinstance(item, (RamenBowl, App, Drink)):
+        if isinstance(item, (RamenBowl, App, Drink, Sauce)):
             self.items.append(item)
     
     def price(self):
