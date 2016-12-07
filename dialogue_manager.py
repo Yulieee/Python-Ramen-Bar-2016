@@ -138,7 +138,18 @@ def respond(sentence, parses):
         # check ramen bowls for missing information here...
         for item in order.items:
             if isinstance(item, RamenBowl):
-                pass
+                if item.broth == None:
+                    response = "What broth would you like for your ramen?\n'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'"
+                    return response
+                if item.spiciness == None:
+                    response = "How spicy would you like your ramen?\n mild, medium, or hot"
+                    return response
+                if item.protein == None:
+                    response = "Which protein would you like in your ramen?\n'tofu', 'beef', 'pork', 'chicken', 'vegetable'"
+                    return response
+                if item.toppings == None:
+                    response = "Would you like any toppings in your ramen?\nfishcake, naruto, mushroom, bean sprouts, kimchi, bok choy, seaweed (nori)"
+                    return response                
         return "Your total is " + str(order.price()) + "."
     #cyute
     elif parses[0].leaves() == ['summon', 'mama']:
