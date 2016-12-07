@@ -37,11 +37,11 @@ class RamenBowl:
     def __str__(self):
         string = self.size
         if self.broth is None:
-            string += ' NA'
+            string += ' ramen'
         else:
             string += ' ' + self.broth
         if self.protein is None:
-            string += ' NA'
+            string += ' (choose protein)'
         else:
             string += ' ' + self.protein
         if len(self.toppings) > 0:
