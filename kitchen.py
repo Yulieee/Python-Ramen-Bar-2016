@@ -12,7 +12,15 @@ class RamenBowl:
         self.protein = protein
         self.toppings = []
         self.sauces = []
-    
+    def update_broth(self, broth_new):
+        if broth_new in broths:
+            self.broth = broth_new
+    def update_protein(self,new_protein):
+        if new_protein in proteins:
+            self.protein = new_protein
+    def update_size(self, size_to_add):
+        if size_to_add in sizes:
+            self.size = size_to_add
     def add_toppings(self, toppings_to_add):
         if isinstance(toppings_to_add, list):
             for topping in toppings_to_add:
@@ -37,11 +45,11 @@ class RamenBowl:
     def __str__(self):
         string = self.size
         if self.broth is None:
-            string += ' ramen'
+            string += ' NA'
         else:
             string += ' ' + self.broth
         if self.protein is None:
-            string += ' (choose protein)'
+            string += ' NA'
         else:
             string += ' ' + self.protein
         if len(self.toppings) > 0:
@@ -115,3 +123,6 @@ class Order:
         if len(self.items) > 0:
             string = '\n'.join(str(item) for item in self.items)
         return string
+    
+    def reset(self):
+        items = []        

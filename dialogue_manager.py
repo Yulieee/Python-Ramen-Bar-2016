@@ -56,7 +56,22 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
 
                     'spring rolls', 'egg rolls', 'squid balls', 'chili oils', 'chili sauces',
                     'soy sauces', 'gyoza sauces',
-                    'sriracha sauces', 'fish cakes', 'bok choys', 'sea weeds', 'bean sprouts', ]
+                    'sriracha sauces', 'fish cakes', 'bok choys', 'sea weeds', 'bean sprouts',
+
+                    'not spicy', 'somewhat spicy', 'real spicy', 'very spicy', 'extremely spicy',
+
+                    'at all'
+                    ]
+
+
+phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
+                        'to buy', 'to eat', 'to add', 'extra', 'tea', 'size', 'sized','at_all']
+
+                    'spring rolls', 'egg rolls', 'squid balls', 'chili oils', 'chili sauces',
+                    'soy sauces', 'gyoza sauces',
+                    'sriracha sauces', 'fish cakes', 'bok choys', 'sea weeds', 'bean sprouts',
+
+                    'at all']
 
 
 phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
@@ -96,7 +111,7 @@ def preprocess(sentence):
         elif word == 'veggie' or word == 'veg':
             s[s.index(word)] = 'vegetable'
         # unify teas
-        elif word == 'jasmine_pearl' or word == 'pearl':
+        if word == 'jasmine_pearl' or word == 'pearl':
             s[s.index(word)] = 'jasmine'
         # unify sodas
         elif word == 'coke' or word == 'cola' or word == 'coca_cola':
@@ -107,20 +122,18 @@ def preprocess(sentence):
         elif word == 'minute_maid' or word == 'minute_made' or \
              word == 'minute_maid_lemonade' or word == 'minute_made_lemonade':
             s[s.index(word)] = 'lemonade'
-
-    # unify vegetables
-    for word in s:
-        if word == 'veggie' or word == 'veg':
-            s[s.index(word)] = 'vegetable'
-
-    # unify teas
-    for word in s:
-        if word == 'jasmine_pearl' or word == 'pearl':
-            s[s.index(word)] = 'jasmine'
-    # unify sodas
-
-    # unify lemonades
-            
+        # unify sizes:
+        elif word == 'small' or word == 'tiny' or word == 'baby':
+            s[s.index(word)] = 'half'
+        elif word == 'large' or word == 'big' or word == 'jumbo':
+            s[s.index(word)] = 'full'
+        elif word == 'not_spicy':
+            s[s.index(word)] = 'mild'
+        elif word == 'somewhat_spicy':
+            s[s.index(word)] = 'medium'
+        elif word == 'very_spicy' or word == 'extremely_spicy' or word == 'real_spicy':
+            s[s.index(word)] = 'hot'
+           
     return s
 
 def parse_sentence(sentence):
@@ -138,6 +151,9 @@ def respond(sentence, parses):
         # check ramen bowls for missing information here...
         for item in order.items:
             if isinstance(item, RamenBowl):
+                pass
+        order.reset()
+        return "Your total is $" + str(order.price()) + ".00"
                 if item.broth == None:
                     response = "What broth would you like for your ramen?\n'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'"
                     return response
@@ -151,6 +167,7 @@ def respond(sentence, parses):
                     response = "Would you like any toppings in your ramen?\nfishcake, naruto, mushroom, bean sprouts, kimchi, bok choy, seaweed (nori)"
                     return response                
         return "Your total is " + str(order.price()) + "."
+
     #cyute
     elif parses[0].leaves() == ['summon', 'mama']:
         try:
@@ -208,6 +225,12 @@ def respond(sentence, parses):
                 for leaf in leaves:
                     if leaf in toppings:
                         new_ramen.add_toppings(leaf)
+                    elif leaf in broths:
+                        new_ramen.update_broth(leaf)
+                    elif leaf in sizes:
+                        new_ramen.update_size(leaf)
+                    elif leaf in proteins:
+                        new_ramen.update_protein(leaf)
                 if multiple == 1:
                     order.add_item(deepcopy(new_ramen))
                     response += "  I've added a ramen bowl to your order."

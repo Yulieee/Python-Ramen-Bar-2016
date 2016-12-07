@@ -191,5 +191,4 @@ R -> "yes" | "no"
 
 #easter egg
 M -> "summon" | "mama"
-M -> "Who's" | "who is" | "mama" 
-
+M -> "Who's" | "who is" | "mama"
