@@ -1,5 +1,7 @@
 from tkinter import *
 from dialogue_manager import parse_sentence, respond, order
+#import PIL
+log_file_name = 'testing_log.txt'
 
 class App(Frame):
    
@@ -40,8 +42,17 @@ class App(Frame):
         # When the user hits return, parse the sentence and print the results.
         self.sentence_entry.bind('<Key-Return>', self.manage_sentence)
 
+        print()
+        log_file = open(log_file_name, 'a')
+        log_file.write('------------------------\n')
+        log_file.close()
+        
     def manage_sentence(self, event):
         user_sentence = self.sentence.get()
+        log_file = open(log_file_name, 'a')
+        log_file.write(user_sentence)
+        log_file.write('\n')
+        log_file.close()
         parse_result = parse_sentence(user_sentence)
         self.response['text'] = respond(user_sentence, parse_result)
         order_string = 'Order:\n' + str(order)
