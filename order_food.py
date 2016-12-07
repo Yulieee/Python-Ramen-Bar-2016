@@ -1,7 +1,6 @@
 from tkinter import *
 from dialogue_manager import parse_sentence, respond, order
 #import PIL
-
 log_file_name = 'testing_log.txt'
 
 class App(Frame):
