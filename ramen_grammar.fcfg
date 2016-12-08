@@ -23,6 +23,7 @@ OI -> NP[NTYPE=app]
 OI -> NP[NTYPE=broth]
 OI -> NP[NTYPE=sauce]
 OI -> NP[NTYPE=Cnouns]
+OI -> JJ
 
 #adjective recursion
 JJ[JTYPE=?t] -> JJ[JTYPE=?t] JJ[JTYPE=?t]
@@ -55,8 +56,8 @@ NP[NTYPE=?t, CONT=YES]-> N[NTYPE=broth] N CJ N[NTYPE=protein]
 NP[NTYPE=?t, CONT=YES]-> JJ N[NTYPE=broth] N CJ N[NTYPE=protein]
 
 #recursive toppings
-N[NTYPE=?t]-> N[NTYPE=protein] CJ N[NTYPE=protein]
-N[NTYPE=?t]-> N[NTYPE=toppings] CJ N[NTYPE=toppings]
+N[NTYPE=?t, +CONJ]-> N[NTYPE=protein, -CONJ] CJ N[NTYPE=protein]
+N[NTYPE=?t, +CONJ]-> N[NTYPE=toppings, -CONJ] CJ N[NTYPE=toppings]
 
 #ex. "a miso ramen with beef and egg"
 NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N CJ N[NTYPE=protein] CJ N[NTYPE=toppings]
@@ -131,13 +132,15 @@ P -> "with" |"aboard" |"amid" | "among" | "on_top_of" | "inside" | "plus"
 
 Pronoun -> "it" | "them"
 
-JJ[JTYPE=size]-> "large" | "large_size" | "whole" | "whole_size" | "big" | "big_size" | "jumbo" | "jumbo_size" | "full" | "full_size" | "regular" | "regular_size" | "half" | "half_size" | "small" | "small_size" | "really"
+JJ[JTYPE=size]-> "half" | "full"
 
 JJ[JTYPE=qty]-> "extra" | "lot_of" | "lots_of" | "more" | "some" | "some_more" | "another"
 
-JJ[JTYPE=broth]-> "shio" | "miso" | "shoyu" | "tamkatsu" | "vegan" 
+JJ[JTYPE=broth]-> "shio" | "miso" | "shoyu" | "tontaksu" | "vegan" 
 
-JJ[JTYPE=spice] -> "mild" | "medium" | "hot" | "spicy" 
+JJ[JTYPE=spice] -> "mild" | "medium" | "hot"
+
+JJ[JTYPE=protein] ->"beef"| "tofu" | "pork" | "chicken" | "vegetable" | "veggie" | "veg" 
 
 M -> "would" | "will" | "could" | "can" | "do" | "does" | "should" | "shall" | "may" | "might"
 
@@ -154,42 +157,25 @@ N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "half" | "full" | "side" | "bowl" | "plate" 
 N[NTYPE=?t, CONT=NO, +MACRO] -> "ramen" | "ramens"
 
 # broth nouns, singular
-N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tonkatsu" | "vegan" 
+N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tontaksu" | "vegan" 
 
 # protein nouns, singualr
 N[NTYPE=protein, CONT=NO,-MACRO]->"beef"| "tofu" | "pork" | "chicken" | "vegetable" | "veggie" | "veg" 
 
-# protein nouns, plural
-N[NTYPE=protein, CONT=NO,-MACRO]->"beefs"| "tofus" | "porks" | "chickens" | "vegetables" | "veggies" | "vegs"
-
 # toppings nouns, singular
 N[NTYPE=toppings, CONT=NO,-MACRO]-> "egg" | "tamagoyaki" | "fishcake" | "fish_cake" | "naruto" | "mushroom" | "bean_sprout" | "sprout" |  "kimchi" | "bok_choy" | "seaweed" | "sea_weed" | "nori" 
-
-# toppings nouns, plural
-N[NTYPE=toppings, CONT=NO,-MACRO]-> "eggs" | "tamagoyakis" | "fishcakes" | "fish_cakes" | "fish-cakes" | "narutos" | "mushrooms" | "bean_sprouts" | "sprouts" |  "kimchis" | "bok_choys" | "seaweeds" | "sea_weeds" | "noris" 
 
 # sauce nouns, singular
 N[NTYPE=sauce, CONT=NO,-MACRO]->"chili_oil" | "sriracha" | "gyoza_sauce" | "gyoza" | "sriracha_sauce" | "chili_sauce" | "soy_sauce" | "soy"
 
-# sauce nouns, plural
-N[NTYPE=sauce, CONT=NO,-MACRO]->"chili_oils" | "srirachas" | "gyoza_sauces" | "gyozas" | "sriracha_sauces" | "chili_sauces" | "soy_sauces" | "soys"
-
 # app nouns, singular
 N[NTYPE=app, CONT=NO,-MACRO]-> "gyoza" | "dumpling" |"edamame" | "spring_roll" | "egg_roll" | "squid_ball" | "takoyaki" 
 
-# app nouns, plural
-N[NTYPE=app, CONT=NO,-MACRO]-> "gyozas" | "dumplings" |"edamames" | "spring_rolls" | "egg_rolls" | "squid_balls" | "takoyakis" 
-
 # drink nouns, singular
-N[NTYPE=drink, CONT=NO,-MACRO]-> "coke" | "cola" | "coca-cola" | "diet-coke" | "diet_coca-cola" | "coca_cola" | "diet_coca_cola" | "sprite" |  "minute-maid_lemonade" | "minute_maid_lemonade" | "minute_maid" | "minute-maid" | "lemonade" | "sencha_tea" | "jasmine_tea" | "jasmine_pearl_tea" | "pearl_tea" | "bancha_tea" | "sencha" | "jasmine" | "pearl" | "bancha" | "water"
-
-#drink nouns, plural
-N[NTYPE=drink,-MACRO]-> "cokes" | "colas" | "coca-colas" | "diet-cokes" | "diet_coca-colas" | "coca_colas" | "diet_coca_colas" | "sprites" |  "minute-maid_lemonades" | "minute_maid_lemonades" | "minute_maids" | "minute-maids" | "lemonades" | "sencha_teas" | "jasmine_teas" | "jasmine_pearl_teas" | "pearl_teas" | "bancha_teas" | "senchas" | "jasmines" | "pearls" | "banchas" | "waters" 
+N[NTYPE=drink, CONT=NO,-MACRO]-> "coke" | "diet_coke" | "sprite" |  "lemonade" | "sencha" | "jasmine" | "bancha" | "water"
 
 #user responses
 R -> "yes" | "no"
 
 #easter egg
-M -> "summon" | "mama"
-M -> "Who's" | "who is" | "mama" 
-
+M -> "summon" | "mama" | "bloody" | "Who's" | "who is"
