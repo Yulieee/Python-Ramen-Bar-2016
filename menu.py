@@ -1,4 +1,4 @@
-broths = {'shio', 'shoyu', 'miso', 'tontaksu', 'vegan'}
+broths = {'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'}
 ramen = {'ramen'}
 cont_nouns = {'bowl'}
 spiciness = {"mild", "medium", "hot"}

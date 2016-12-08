@@ -156,7 +156,7 @@ def respond(sentence, parses):
             item_rank = order.items.index(item)
             if isinstance(item, RamenBowl):
                 if item.broth == None:
-                    response = "What broth would you like for your ramen?\n'shio', 'shoyu', 'miso', 'tontaksu', 'vegan'"
+                    response = "What broth would you like for your ramen?\n'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'"
                     return response
                 if item.spiciness == None:
                     response = "How spicy would you like your ramen?\n mild, medium, or hot"

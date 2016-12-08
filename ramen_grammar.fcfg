@@ -136,7 +136,7 @@ JJ[JTYPE=size]-> "half" | "full"
 
 JJ[JTYPE=qty]-> "extra" | "lot_of" | "lots_of" | "more" | "some" | "some_more" | "another"
 
-JJ[JTYPE=broth]-> "shio" | "miso" | "shoyu" | "tontaksu" | "vegan" 
+JJ[JTYPE=broth]-> "shio" | "miso" | "shoyu" | "tonkatsu" | "vegan" 
 
 JJ[JTYPE=spice] -> "mild" | "medium" | "hot"
 
@@ -157,7 +157,7 @@ N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "half" | "full" | "side" | "bowl" | "plate" 
 N[NTYPE=?t, CONT=NO, +MACRO] -> "ramen" | "ramens"
 
 # broth nouns, singular
-N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tontaksu" | "vegan" 
+N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tonkatsu" | "vegan" 
 
 # protein nouns, singualr
 N[NTYPE=protein, CONT=NO,-MACRO]->"beef"| "tofu" | "pork" | "chicken" | "vegetable" | "veggie" | "veg" 
