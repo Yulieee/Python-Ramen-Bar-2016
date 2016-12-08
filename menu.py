@@ -1,4 +1,4 @@
-broths = {'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'}
+broths = {'shio', 'shoyu', 'miso', 'tontaksu', 'vegan'}
 ramen = {'ramen'}
 cont_nouns = {'bowl'}
 spiciness = {"mild", "medium", "hot"}
@@ -27,7 +27,6 @@ drinks = {'coke': {'price': 1.5},
           'sencha': {'price': 2},
           'jasmine': {'price': 2},
           'bancha': {'price': 2},
-          'water' : {'price': 0}}
-    
+          'water' : {'price': 2}}    
 sizes = {'half': {'price': 9},
          'full': {'price':12}}

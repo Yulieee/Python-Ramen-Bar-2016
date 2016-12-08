@@ -1,6 +1,5 @@
 from tkinter import *
 from dialogue_manager import parse_sentence, respond, order
-#import PIL
 log_file_name = 'testing_log.txt'
 
 class App(Frame):
@@ -62,7 +61,7 @@ class App(Frame):
         print()
 
 root = Tk()
-cuter = font.Font(family="Kristen ITC",size=12,weight="normal")
+cuter = font.Font(family="Comic Sans MS",size=12,weight="normal")
 root.option_add("*Font", cuter)
 root.columnconfigure(index = 0, weight = 1)
 app = App(master = root)
