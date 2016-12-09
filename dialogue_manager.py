@@ -206,7 +206,8 @@ def respond(sentence, parses):
                 #broths (and ramen for now)
                 if len(word_set & broths) > 0\
                    or len(word_set & proteins) > 0\
-                    or len(word_set & cont_nouns) > 0:
+                    or len(word_set & cont_nouns) > 0\
+                    or len(word_set & ramen) > 0:
                             item_type = 'ramen_bowl'
                 #apps
                 elif len(word_set & set(apps.keys())) > 0:

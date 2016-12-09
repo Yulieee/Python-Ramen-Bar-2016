@@ -154,7 +154,7 @@ V[VTYPE=inf] -> "to_order" | "to_get" | "to_buy" | "to_have" | "to_eat" | "to_ad
 N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "half" | "full" | "side" | "bowl" | "plate" | "cup" |"glass" |"serving" |"platter" | "piece" | "skewer" | "packet" | "thing" | "order" | "bottle"
 
 # ramen 
-N[NTYPE=?t, CONT=NO, +MACRO] -> "ramen" | "ramens"
+N[NTYPE=broth, CONT=NO, +MACRO] -> "ramen" | "ramens"
 
 # broth nouns, singular
 N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tonkatsu" | "vegan" 
