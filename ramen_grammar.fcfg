@@ -15,7 +15,10 @@ S -> M M
 # complete orders
 OI[+CONJ] -> OI[-CONJ] CJ OI
 OI[+CONJ] -> OI[-CONJ] OI[+CONJ]
-OI[+CONJ] -> OI[-CONJ] CJ OI[-CONJ] CJ OI 
+OI[+CONJ] -> OI[-CONJ] CJ OI[-CONJ] CJ OI
+
+OI[+CONJ] -> CJ Det OI[-CONJ]
+OI[+CONJ] -> CJ OI
 
 # single order items 
 OI -> NP[NTYPE=drink]
@@ -41,12 +44,40 @@ NP[NTYPE=?t]-> N[NTYPE=?t, CONT=NO]
 NP[NTYPE=?t, CONT=YES]-> Det N N[NTYPE=Cnouns, CONT=YES]
 NP[NTYPE=?t, CONT=YES]-> Det JJ N N[NTYPE=Cnouns, CONT=YES]
 NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
+NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
+
+#recursive toppings
+N[NTYPE=?t]-> N[NTYPE=protein] CJ N[NTYPE=protein]
+N[NTYPE=?t]-> N[NTYPE=toppings] CJ N[NTYPE=toppings]
+
 NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
+NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=broth] N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
+
+#ex. "a miso ramen beef"
+NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N N[NTYPE=protein]
+NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=broth] N N[NTYPE=protein]
+
+#ex. "a miso ramen with beef"
+NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N CJ N[NTYPE=protein]
+NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=broth] N CJ N[NTYPE=protein]
+NP[NTYPE=?t, CONT=YES]-> N[NTYPE=broth] N CJ N[NTYPE=protein]
+NP[NTYPE=?t, CONT=YES]-> JJ N[NTYPE=broth] N CJ N[NTYPE=protein]
+
+#ex. "a miso ramen with beef and egg"
+NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N CJ N[NTYPE=protein] CJ N[NTYPE=toppings]
+NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=broth] N CJ N[NTYPE=protein] CJ N[NTYPE=toppings]
+NP[NTYPE=?t, CONT=YES]-> N[NTYPE=broth] N CJ N[NTYPE=protein] CJ N[NTYPE=toppings]
+NP[NTYPE=?t, CONT=YES]-> JJ N[NTYPE=broth] N CJ N[NTYPE=protein] CJ N[NTYPE=toppings]
 
 
 # ex: "a JJ ramen bowl with bean sprouts" 
 NP[NTYPE=?t, CONT=YES]-> Det N N[NTYPE=Cnouns, CONT=YES] PP
 NP[NTYPE=?t, CONT=YES]-> Det JJ N N[NTYPE=Cnouns, CONT=YES] PP[PTYPE=addon]
+
+#prep phrases
+PP[PTYPE=count] -> "of" NP[CONT=NO]
+PP[PTYPE=top,] -> "on" NP[CONT=YES]
+PP[PTYPE=addon] -> P NP[CONT=NO]
 
 # ex: "shio ramen" 
 NP[NTYPE=?t]-> N[NTYPE=broth, CONT=NO] N[NTYPE=?t, CONT=NO]
