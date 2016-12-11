@@ -17,10 +17,6 @@ OI[+CONJ] -> OI[-CONJ] CJ OI
 OI[+CONJ] -> OI[-CONJ] OI[+CONJ]
 OI[+CONJ] -> OI[-CONJ] CJ OI[-CONJ] CJ OI 
 
-#continued orders, ex. "and another ramen"
-OI[+CONJ] -> CJ Det OI[-CONJ]
-OI[+CONJ] -> CJ OI
-
 # single order items 
 OI -> NP[NTYPE=drink]
 OI -> NP[NTYPE=app]
@@ -50,7 +46,6 @@ NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N[NTYPE=protein] N N[NTYPE=Cnouns, C
 NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
 NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=broth] N[NTYPE=protein] N N[NTYPE=Cnouns, CONT=YES]
 
-#ex. "a miso ramen beef"
 NP[NTYPE=?t, CONT=YES]-> Det N[NTYPE=broth] N N[NTYPE=protein]
 NP[NTYPE=?t, CONT=YES]-> Det JJ N[NTYPE=broth] N N[NTYPE=protein]
 
@@ -159,7 +154,7 @@ V[VTYPE=inf] -> "to_order" | "to_get" | "to_buy" | "to_have" | "to_eat" | "to_ad
 N[NTYPE=Cnouns, CONT=YES,+MACRO] -> "half" | "full" | "side" | "bowl" | "plate" | "cup" |"glass" |"serving" |"platter" | "piece" | "skewer" | "packet" | "thing" | "order" | "bottle"
 
 # ramen 
-N[NTYPE=broth, CONT=NO, +MACRO] -> "ramen" | "ramens"
+N[NTYPE=broth, CONT=NO, +MACRO] -> "ramen" | "soup"
 
 # broth nouns, singular
 N[NTYPE=broth, CONT=NO,+MACRO]->"shio" | "miso" | "shoyu" | "tonkatsu" | "vegan" 

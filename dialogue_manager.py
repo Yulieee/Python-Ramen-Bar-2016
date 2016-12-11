@@ -5,6 +5,7 @@ from kitchen import *
 from copy import deepcopy
 
 
+
 grammar_filename = 'ramen_grammar.fcfg'
 order = Order()
 termlimit = False
@@ -144,12 +145,69 @@ def parse_sentence(sentence):
 
 def respond(sentence, parses):
     global termlimit, item_rank
-    if len(parses) == 0:
-        return "I'm sorry; I don't know what that means."
+    if sentence == "":
+        s = 'dumb_trick'
+    else:
+        s = preprocess(sentence)
+    if len(parses) == 0 and not s == 'dumb_trick':
+        # not grammatic system as failsafe
+        if len(s)>0:
+            for word in s:
+                #excluding cont_nouns because they would produce a counting issue
+                if len({word} & broths) > 0 or len({word} \
+                    & proteins) > 0 or len({word} \
+                    & ramen) > 0 or len({word} & set(sizes.keys())) > 0:
+                    # its a ramen bowl
+                    new_ramen = RamenBowl()
+                    if word in broths:
+                        new_ramen.update_broth(word)
+                    elif word in proteins:
+                        new_ramen.update_protein(word)
+                    elif word in sizes:
+                        new_ramen.update_size(word)
+                    # remove word to keep track
+                    s.remove(word)
+                    # check for attributes
+                    for other_words in s:
+                        # Check for toppings in the leaves of the tree.
+                        if other_words in toppings:
+                            new_ramen.add_toppings(other_words)
+                            s.remove(other_words)
+                        elif other_words in broths:
+                            new_ramen.update_broth(other_words)
+                            s.remove(other_words)
+                        elif other_words in sizes:
+                            new_ramen.update_size(other_words)
+                            s.remove(other_words)
+                        elif other_words in proteins:
+                            new_ramen.update_protein(other_words)
+                            s.remove(other_words)
+                        elif other_words in spiciness:
+                            new_ramen.update_spice(other_words)
+                            s.remove(other_words)
+                    order.add_item(deepcopy(new_ramen))
+                # it'a an app
+                elif len({word} & set(apps.keys())) > 0:
+                    new_app = App(word)
+                    s.remove(word)
+                    order.add_item(deepcopy(new_app))
+                # it's a drink
+                elif len({word} & set(drinks.keys())) > 0:
+                    new_drink = Drink(word)
+                    s.remove(word)
+                    order.add_item(deepcopy(new_drink))
+                # its a sauce
+                elif len({word} & set(sauces.keys()))>0:
+                    new_sauce = Sauce(word)
+                    s.remove(word)
+                    order.add_item(deepcopy(new_sauce))
+            response = "I've updated your order.\nWould you like anything else?"
+            return response
+        #gets called if non-grammar words are used
+        else:
+            return "I'm sorry; I don't know what that means."
     #user response to "would you like anything else?"
-    elif parses[0].leaves() == ['yes']:
-        return "What else can I get for you?"
-    elif parses[0].leaves() == ['no']:
+    elif s == 'dumb_trick' or parses[0].leaves() == ['no'] :
         termlimit = True
         # check ramen bowls for missing information here...
         for item in order.items:
@@ -161,14 +219,21 @@ def respond(sentence, parses):
                 if item.spiciness == None:
                     response = "How spicy would you like your ramen?\n mild, medium, or hot"
                     return response
+                if item.spiciness == None:
+                    response = "How spicy would you like your ramen?\n mild, medium, or hot"
+                    return response
                 if item.protein == None:
                     response = "Which protein would you like in your ramen?\n'tofu', 'beef', 'pork', 'chicken', 'vegetable'"
                     return response
                 if item.toppings == None:
                     response = "Would you like any toppings in your ramen?\nfishcake, naruto, mushroom, bean sprouts, kimchi, bok choy, seaweed (nori)"
-                    return response                
-        return "Your total is $" + str(order.price()) + ".00"
-        order.reset()
+                    return response
+                return "Your total is $" + str(order.price())
+                order.reset()
+    elif parses[0].leaves() == ['yes']:
+        return "What else can I get for you?"
+               
+
     #cyute
     elif parses[0].leaves() == ['summon', 'mama']:
         try:
@@ -236,6 +301,8 @@ def respond(sentence, parses):
                             new_ramen.update_size(leaf)
                         elif leaf in proteins:
                             new_ramen.update_protein(leaf)
+                        elif leaf in spiciness:
+                            new_ramen.update_spice(leaf)
                             
                     if multiple == 1:
                         order.add_item(deepcopy(new_ramen))
@@ -289,17 +356,22 @@ def respond(sentence, parses):
                 leaves = item.leaves()
                 for leaf in leaves:
                     if leaf in toppings:
-                        order.items[item_rank].add_toppings(leaf)                    
+                        order.items[item_rank].add_toppings(leaf)
+                        response = "Okay, thank  you.  Please hit enter."
                     elif leaf in spiciness:
                         order.items[item_rank].update_spice(leaf)
+                        response = "Okay, thank  you.  Please hit enter."
                     elif leaf in broths:
                         order.items[item_rank].update_broth(leaf)
+                        response = "Okay, thank  you.  Please hit enter."
                     elif leaf in sizes:
                         order.items[item_rank].update_size(leaf)
+                        response = "Okay, thank  you.  Please hit enter."
                     elif leaf in proteins:
                         order.items[item_rank].update_protein(leaf)
-                        
-    respond('no',parse_sentence('no'))
+                        response = "Okay, thank  you.  Please hit enter."
+            return response
+
                     
 
 def get_OIs(parse):

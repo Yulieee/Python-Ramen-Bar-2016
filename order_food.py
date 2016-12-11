@@ -57,8 +57,7 @@ class App(Frame):
         order_string = 'Order:\n' + str(order)
         order_string += '\n\nTotal: ${:.2f}'.format(order.price())
         self.order_label['text'] = order_string
-        self.sentence.set('')
-        print()
+        self.sentence.set('')       
 
 root = Tk()
 cuter = font.Font(family="Comic Sans MS",size=12,weight="normal")

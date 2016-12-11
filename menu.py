@@ -1,5 +1,5 @@
 broths = {'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'}
-ramen = {'ramen'}
+ramen = {'ramen','soup'}
 cont_nouns = {'bowl'}
 spiciness = {"mild", "medium", "hot"}
 proteins = {'tofu', 'beef', 'pork', 'chicken', 'vegetable'}
