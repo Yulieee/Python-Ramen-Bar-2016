@@ -4,8 +4,6 @@ from menu import *
 from kitchen import *
 from copy import deepcopy
 
-
-
 grammar_filename = 'ramen_grammar.fcfg'
 order = Order()
 termlimit = False
@@ -228,8 +226,7 @@ def respond(sentence, parses):
                 if item.toppings == None:
                     response = "Would you like any toppings in your ramen?\nfishcake, naruto, mushroom, bean sprouts, kimchi, bok choy, seaweed (nori)"
                     return response
-                return "Your total is $" + str(order.price())
-                order.reset()
+        return "Your total is $" + str(order.price())
     elif parses[0].leaves() == ['yes']:
         return "What else can I get for you?"
                
@@ -242,7 +239,7 @@ def respond(sentence, parses):
         except ImportError:
             return "Eat ramen or go away."        
     else:
-        response = 'I heard you say "' + sentence + '"\n'
+        response = 'You said "' + sentence + '"\n'
         for p in parses:
             print('PARSE OF "' + sentence + '" (of ' + str(len(parses)) + '):')
             print(p)

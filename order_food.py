@@ -35,8 +35,15 @@ class App(Frame):
             
         # This variable holds the sentence that the user typed in.
         self.sentence = StringVar()
+
+        #text field initial output
+        self.sentence.set('(Enter text here)')
+        
         # It's bound to the text displayed in the entry field in the GUI.
         self.sentence_entry['textvariable'] = self.sentence
+
+        # clear the text entry when they click on it
+        self.sentence_entry.bind('<Button-1>',self.clear_field)
         
         # When the user hits return, parse the sentence and print the results.
         self.sentence_entry.bind('<Key-Return>', self.manage_sentence)
@@ -45,6 +52,9 @@ class App(Frame):
         log_file = open(log_file_name, 'a')
         log_file.write('------------------------\n')
         log_file.close()
+
+    def clear_field(self,event):
+        self.sentence.set('')
         
     def manage_sentence(self, event):
         user_sentence = self.sentence.get()
