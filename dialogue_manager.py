@@ -7,6 +7,8 @@ from copy import deepcopy
 
 grammar_filename = 'ramen_grammar.fcfg'
 order = Order()
+termlimit = False
+item_rank = 0
 parser = nltk.parse.load_parser(grammar_filename)
 
 # for converting spelled numbers to arabic numerals
@@ -36,9 +38,7 @@ num_conversion_dict = {
 
 phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
             
-                    'lot of', 'lots of', 'on top of', 'large size', 'big size',
-                    'jumbo size', 'full size', 'regular size',
-                    'some more', 'small size', 'half size',
+                    'lot of', 'lots of', 'on top of', 'some more',
                     
                     'diet coca cola' , 'diet coke', 'diet cola', 'coca cola',
 
@@ -56,13 +56,24 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
 
                     'spring rolls', 'egg rolls', 'squid balls', 'chili oils', 'chili sauces',
                     'soy sauces', 'gyoza sauces',
-                    'sriracha sauces', 'fish cakes', 'bok choys', 'sea weeds', 'bean sprouts', ]
+                    'sriracha sauces', 'fish cakes', 'bok choys', 'sea weeds', 'bean sprouts',
+
+                    'not spicy', 'somewhat spicy', 'real spicy', 'very spicy', 'extremely spicy',
+
+                    'at all'
+                    ]
 
 
 phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
-                        'to buy', 'to eat', 'to add', 'extra', 'tea']
+                        'to buy', 'to eat', 'to add', 'extra', 'tea', 'size', 'sized','spring rolls',
+                        'egg rolls', 'squid balls', 'chili oils', 'chili sauces','soy sauces',
+                        'gyoza sauces','sriracha sauces', 'fish cakes', 'bok choys', 'sea weeds',
+                        'bean sprouts','at all']
 
-phrases_with_s = ["let's","plus", "as", "has", "lots", "yes", "glass"]
+phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
+                        'to buy', 'to eat', 'to add', 'extra', 'tea','size']
+
+phrases_with_s = ["let's","plus", "as", "has", "lots", "yes", "glass" ,"is"]
 
 def preprocess(sentence):
     s = sentence.lower()
@@ -87,6 +98,12 @@ def preprocess(sentence):
         i+=1
 
     for word in s:
+        # make sure that all the words are in the grammar; if not, ask to repeat
+        try:
+            parser.chart_parse([word])
+        except ValueError:
+            s = ''
+            return s
         #convert worded numbers to numerals
         if word in num_conversion_dict.keys():
             numeral = num_conversion_dict[word]
@@ -96,7 +113,7 @@ def preprocess(sentence):
         elif word == 'veggie' or word == 'veg':
             s[s.index(word)] = 'vegetable'
         # unify teas
-        elif word == 'jasmine_pearl' or word == 'pearl':
+        if word == 'jasmine_pearl' or word == 'pearl':
             s[s.index(word)] = 'jasmine'
         # unify sodas
         elif word == 'coke' or word == 'cola' or word == 'coca_cola':
@@ -107,20 +124,18 @@ def preprocess(sentence):
         elif word == 'minute_maid' or word == 'minute_made' or \
              word == 'minute_maid_lemonade' or word == 'minute_made_lemonade':
             s[s.index(word)] = 'lemonade'
-
-    # unify vegetables
-    for word in s:
-        if word == 'veggie' or word == 'veg':
-            s[s.index(word)] = 'vegetable'
-
-    # unify teas
-    for word in s:
-        if word == 'jasmine_pearl' or word == 'pearl':
-            s[s.index(word)] = 'jasmine'
-    # unify sodas
-
-    # unify lemonades
-            
+        # unify sizes:
+        elif word == 'small' or word == 'tiny' or word == 'baby':
+            s[s.index(word)] = 'half'
+        elif word == 'large' or word == 'big' or word == 'jumbo' or word =='whole' or word == 'regular':
+            s[s.index(word)] = 'full'
+        elif word == 'not_spicy':
+            s[s.index(word)] = 'mild'
+        elif word == 'somewhat_spicy':
+            s[s.index(word)] = 'medium'
+        elif word == 'very_spicy' or word == 'extremely_spicy' or word == 'real_spicy':
+            s[s.index(word)] = 'hot'
+           
     return s
 
 def parse_sentence(sentence):
@@ -128,18 +143,32 @@ def parse_sentence(sentence):
     return [tree for tree in parser.parse(processed)]
 
 def respond(sentence, parses):
+    global termlimit, item_rank
     if len(parses) == 0:
         return "I'm sorry; I don't know what that means."
-    
     #user response to "would you like anything else?"
     elif parses[0].leaves() == ['yes']:
         return "What else can I get for you?"
     elif parses[0].leaves() == ['no']:
+        termlimit = True
         # check ramen bowls for missing information here...
         for item in order.items:
+            item_rank = order.items.index(item)
             if isinstance(item, RamenBowl):
-                pass
-        return "Your total is " + str(order.price()) + "."
+                if item.broth == None:
+                    response = "What broth would you like for your ramen?\n'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'"
+                    return response
+                if item.spiciness == None:
+                    response = "How spicy would you like your ramen?\n mild, medium, or hot"
+                    return response
+                if item.protein == None:
+                    response = "Which protein would you like in your ramen?\n'tofu', 'beef', 'pork', 'chicken', 'vegetable'"
+                    return response
+                if item.toppings == None:
+                    response = "Would you like any toppings in your ramen?\nfishcake, naruto, mushroom, bean sprouts, kimchi, bok choy, seaweed (nori)"
+                    return response                
+        return "Your total is $" + str(order.price()) + ".00"
+        order.reset()
     #cyute
     elif parses[0].leaves() == ['summon', 'mama']:
         try:
@@ -157,93 +186,121 @@ def respond(sentence, parses):
         
         # Get the OIs in the parse.
         order_items = get_OIs(parse)
-        # Iterate through the OIs and add the foods they mention to the
-        # order.
-        for item in order_items:
-            # Figure out what kind of item the user requested by looking
-            # for keywords.
-            leaves = item.leaves()
-            word_set = set(leaves)
-            item_type = 'none'
-            item_word = ''
-            multiple = 1
-            n = 1
-            if len(word_set & set(num_conversion_dict.values())) > 0:
-                multiple = int(list(set(word_set) & \
-                                set(num_conversion_dict.values()))[0])
-            #broths (and ramen for now)
-            if len(word_set & broths) > 0\
-               or len(word_set & proteins) > 0\
-                or len(word_set & cont_nouns) > 0:
-                        item_type = 'ramen_bowl'
-            #apps
-            elif len(word_set & set(apps.keys())) > 0:
-                item_type = 'app'
-                item_word = list(word_set & set(apps.keys()))[0]
 
-            #drinks
-            elif len(word_set & set(drinks.keys())) > 0:
-                item_type = 'drink'
-                item_word = list(word_set & set(drinks.keys()))[0]
+        # if they're not done ordering, add new items
+        if termlimit == False:
+            # Iterate through the OIs and add the foods they mention to the
+            # order.
+            for item in order_items:
+                # Figure out what kind of item the user requested by looking
+                # for keywords.
+                leaves = item.leaves()
+                word_set = set(leaves)
+                item_type = 'none'
+                item_word = ''
+                multiple = 1
+                n = 1
+                if len(word_set & set(num_conversion_dict.values())) > 0:
+                    multiple = int(list(set(word_set) & \
+                                    set(num_conversion_dict.values()))[0])
+                #broths (and ramen for now)
+                if len(word_set & broths) > 0\
+                   or len(word_set & proteins) > 0\
+                    or len(word_set & cont_nouns) > 0\
+                    or len(word_set & ramen) > 0:
+                            item_type = 'ramen_bowl'
+                #apps
+                elif len(word_set & set(apps.keys())) > 0:
+                    item_type = 'app'
+                    item_word = list(word_set & set(apps.keys()))[0]
 
-            elif len(word_set & set(sauces.keys())):
-                item_type = 'sauce'
-                item_word = list(word_set & set(sauces.keys()))[0]
-                
-            # If the user wants a ramen bowl...
-            if item_type == 'ramen_bowl':
-                new_ramen = RamenBowl()
-                # Check for toppings in the leaves of the tree.
+                #drinks
+                elif len(word_set & set(drinks.keys())) > 0:
+                    item_type = 'drink'
+                    item_word = list(word_set & set(drinks.keys()))[0]
+
+                elif len(word_set & set(sauces.keys())):
+                    item_type = 'sauce'
+                    item_word = list(word_set & set(sauces.keys()))[0]
+                    
+                # If the user wants a ramen bowl...
+                if item_type == 'ramen_bowl':
+                    new_ramen = RamenBowl()
+                    # Check for toppings in the leaves of the tree.
+                    for leaf in leaves:
+                        if leaf in toppings:
+                            new_ramen.add_toppings(leaf)
+                        elif leaf in broths:
+                            new_ramen.update_broth(leaf)
+                        elif leaf in sizes:
+                            new_ramen.update_size(leaf)
+                        elif leaf in proteins:
+                            new_ramen.update_protein(leaf)
+                            
+                    if multiple == 1:
+                        order.add_item(deepcopy(new_ramen))
+                        response += "  I've added a ramen bowl to your order."
+                    else:
+                        while n <= multiple:
+                            order.add_item(deepcopy(new_ramen))
+                            n+=1
+                        response += "  I've added " + str(multiple) + " ramen bowls to your order."
+                    
+                # If the user mentioned an app...
+                elif item_type == 'app':
+                    new_app = App(item_word)
+                    if multiple == 1:
+                        order.add_item(deepcopy(new_app))
+                        response += "  I've added a " + item_word + " to your order."
+                    else:
+                        while n <= multiple:
+                            order.add_item(deepcopy(new_app))
+                            n+=1
+                        response += "  I've added " + str(multiple)+ " " + item_word + "s " + " to your order."
+                    
+                # If the user mentioned a drink...
+                elif item_type == 'drink':
+                    new_drink = Drink(item_word)
+                    if multiple == 1:
+                        order.add_item(deepcopy(new_drink))
+                        response += "  I've added a " + item_word + " to your order."
+                    else:
+                        while n <= multiple:
+                            order.add_item(deepcopy(new_drink))
+                            n+=1                    
+                        response += "  I've added " + str(multiple) + " "+ item_word + "s " + " to your order."
+
+                # If the user mentioned a sauce...
+                elif item_type == 'sauce':
+                    new_sauce = Sauce(item_word)
+                    if multiple == 1:
+                        order.add_item(deepcopy(new_sauce))
+                        response += "  I've added a " + item_word + " to your order."
+                    else:
+                        while n <= multiple:
+                            order.add_item(deepcopy(new_sauce))
+                            n+=1
+                        response += "  I've added " + str(multiple) + " " + item_word + "s " + " to your order."
+
+            response += "  Would you like anything else?"
+            return response
+        else:
+            for item in order_items:
+                leaves = item.leaves()
                 for leaf in leaves:
                     if leaf in toppings:
-                        new_ramen.add_toppings(leaf)
-                if multiple == 1:
-                    order.add_item(deepcopy(new_ramen))
-                    response += "  I've added a ramen bowl to your order."
-                else:
-                    while n <= multiple:
-                        order.add_item(deepcopy(new_ramen))
-                        n+=1
-                    response += "  I've added " + str(multiple) + " ramen bowls to your order."
-                
-            # If the user mentioned an app...
-            elif item_type == 'app':
-                new_app = App(item_word)
-                if multiple == 1:
-                    order.add_item(deepcopy(new_app))
-                    response += "  I've added a " + item_word + " to your order."
-                else:
-                    while n <= multiple:
-                        order.add_item(deepcopy(new_app))
-                        n+=1
-                    response += "  I've added " + str(multiple)+ " " + item_word + "s " + " to your order."
-                
-            # If the user mentioned a drink...
-            elif item_type == 'drink':
-                new_drink = Drink(item_word)
-                if multiple == 1:
-                    order.add_item(deepcopy(new_drink))
-                    response += "  I've added a " + item_word + " to your order."
-                else:
-                    while n <= multiple:
-                        order.add_item(deepcopy(new_drink))
-                        n+=1                    
-                    response += "  I've added " + str(multiple) + " "+ item_word + "s " + " to your order."
-
-            # If the user mentioned a sauce...
-            elif item_type == 'sauce':
-                new_sauce = Sauce(item_word)
-                if multiple == 1:
-                    order.add_item(deepcopy(new_sauce))
-                    response += "  I've added a " + item_word + " to your order."
-                else:
-                    while n <= multiple:
-                        order.add_item(deepcopy(new_sauce))
-                        n+=1
-                    response += "  I've added " + str(multiple) + " " + item_word + "s " + " to your order."
-
-        response += "  Would you like anything else?"
-        return response
+                        order.items[item_rank].add_toppings(leaf)                    
+                    elif leaf in spiciness:
+                        order.items[item_rank].update_spice(leaf)
+                    elif leaf in broths:
+                        order.items[item_rank].update_broth(leaf)
+                    elif leaf in sizes:
+                        order.items[item_rank].update_size(leaf)
+                    elif leaf in proteins:
+                        order.items[item_rank].update_protein(leaf)
+                        
+    respond('no',parse_sentence('no'))
+                    
 
 def get_OIs(parse):
     """Return the subtrees of the parse that are OIs."""
