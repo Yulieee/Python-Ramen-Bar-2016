@@ -1,12 +1,11 @@
 broths = {'shio', 'shoyu', 'miso', 'tonkatsu', 'vegan'}
 ramen = {'ramen','soup'}
 cont_nouns = {'bowl'}
-spiciness = {"mild", "medium", "hot"}
+spiciness = {'mild', 'medium', 'hot'}
 proteins = {'tofu', 'beef', 'pork', 'chicken', 'vegetable'}
-toppings = {"egg" ,  "tamagoyaki" ,  \
-             "fishcake" ,"fish_cake" , "naruto" , "mushroom" ,\
-             "bean_sprout" , "sprout" ,  \
-             "kimchi" , "bok_choy" , "seaweed" , "sea_weed" , "nori"} 
+toppings = {"egg" , "fish_cake", "mushroom" ,\
+             "bean_sprout",  \
+             "kimchi" , "bok_choy" , "seaweed"} 
 sauces= {'chili_oil': {'price': .25},
           'sriracha': {'price': .25},
           'soy': {'price': .25},

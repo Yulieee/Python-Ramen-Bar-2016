@@ -27,11 +27,16 @@ class App(Frame):
         self.menu_copy = self.menu_image.copy().subsample(2)
         
         self.menu_image_label = Label(master, image = self.menu_copy)
-        self.menu_image_label.grid(row = 2, column = 1)
+        self.menu_image_label.grid(row = 2, column = 1, rowspan=2)
 
         # for the list of order
         self.order_label = Label(text = 'Nothing ordered yet.', bg="bisque1")
         self.order_label.grid(row = 2, column = 0, sticky = W+E+N+S)
+
+        # button for removing items
+        self.delete_button = Button(text = 'Remove last item.', bg="tomato", fg="white")
+        self.delete_button.grid(row = 3 , column = 0)
+        self.delete_button.bind('<Button-1>',self.delete_item)
             
         # This variable holds the sentence that the user typed in.
         self.sentence = StringVar()
@@ -67,8 +72,16 @@ class App(Frame):
         order_string = 'Order:\n' + str(order)
         order_string += '\n\nTotal: ${:.2f}'.format(order.price())
         self.order_label['text'] = order_string
-        self.sentence.set('')       
-
+        self.sentence.set('')
+        
+    def delete_item(self,event):
+        if len(order.items)>0:
+            order.items.pop()
+            order_string = 'Order:\n' + str(order)
+            order_string += '\n\nTotal: ${:.2f}'.format(order.price())
+            self.order_label['text'] = order_string
+            self.sentence.set('')
+                
 root = Tk()
 cuter = font.Font(family="Comic Sans MS",size=12,weight="normal")
 root.option_add("*Font", cuter)

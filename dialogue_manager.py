@@ -41,8 +41,8 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
                     
                     'diet coca cola' , 'diet coke', 'diet cola', 'coca cola',
 
-                    'minute maid lemonade', 'minute made lemonade', \
-                    'minute maid', 'minute made', 'jasmine pearl'
+                    'minute maid lemonade', 'minute made lemonade', 
+                    'minute maid', 'minute made', 'jasmine pearl',
 
                     'spring roll', 'egg roll', 'squid ball', 'chili oil', 'chili sauce',
                     'soy sauce', 'gyoza sauce',
@@ -50,8 +50,8 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
 
                     'diet coca colas' , 'diet cokes', 'diet colas', 'coca colas',
 
-                    'minute maid lemonades', 'minute made lemonades', \
-                    'minute maids', 'minute mades', 'jasmine pearls'
+                    'minute maid lemonades', 'minute made lemonades', 
+                    'minute maids', 'minute mades', 'jasmine pearls',
 
                     'spring rolls', 'egg rolls', 'squid balls', 'chili oils', 'chili sauces',
                     'soy sauces', 'gyoza sauces',
@@ -64,10 +64,7 @@ phrases_to_unify = ['with no', 'let me', 'as well as', 'in addition to',
 
 
 phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
-                        'to buy', 'to eat', 'to add', 'extra', 'tea', 'size', 'sized','spring rolls',
-                        'egg rolls', 'squid balls', 'chili oils', 'chili sauces','soy sauces',
-                        'gyoza sauces','sriracha sauces', 'fish cakes', 'bok choys', 'sea weeds',
-                        'bean sprouts','at all']
+                        'to buy', 'to eat', 'to add', 'extra', 'tea', 'size', 'sized','at all']
 
 phrases_to_eliminate = ['please', 'thanks', 'thank you', 'to order', 'to get', 'to have',
                         'to buy', 'to eat', 'to add', 'extra', 'tea','size']
@@ -87,6 +84,7 @@ def preprocess(sentence):
     for phrase in phrases_to_unify:
         new_phrase = re.sub(r' ', '_', phrase)
         s = re.sub(phrase, new_phrase, s)
+
     s = s.split()
 
     #get rid of plurals
@@ -97,12 +95,6 @@ def preprocess(sentence):
         i+=1
 
     for word in s:
-        # make sure that all the words are in the grammar; if not, ask to repeat
-        try:
-            parser.chart_parse([word])
-        except ValueError:
-            s = ''
-            return s
         #convert worded numbers to numerals
         if word in num_conversion_dict.keys():
             numeral = num_conversion_dict[word]
@@ -112,7 +104,7 @@ def preprocess(sentence):
         elif word == 'veggie' or word == 'veg':
             s[s.index(word)] = 'vegetable'
         # unify teas
-        if word == 'jasmine_pearl' or word == 'pearl':
+        elif word == 'jasmine_pearl' or word == 'pearl':
             s[s.index(word)] = 'jasmine'
         # unify sodas
         elif word == 'coke' or word == 'cola' or word == 'coca_cola':
@@ -128,12 +120,30 @@ def preprocess(sentence):
             s[s.index(word)] = 'half'
         elif word == 'large' or word == 'big' or word == 'jumbo' or word =='whole' or word == 'regular':
             s[s.index(word)] = 'full'
+        # unify spices
         elif word == 'not_spicy':
             s[s.index(word)] = 'mild'
         elif word == 'somewhat_spicy':
             s[s.index(word)] = 'medium'
-        elif word == 'very_spicy' or word == 'extremely_spicy' or word == 'real_spicy':
+        elif word == 'very_spicy' or word == 'spicy' or word == 'extremely_spicy' or word == 'real_spicy':
             s[s.index(word)] = 'hot'
+        # unify apps
+        elif word == 'tomagoyaki':
+            s[s.index(word)] = 'egg'
+        elif word == 'fishcake' or word == 'naruto':
+            s[s.index(word)] = 'fish_cake'
+        elif word == 'beansprout' or word == 'sprout':
+            s[s.index(word)] = "bean_sprout"
+        elif word == 'sea_weed' or word == 'nori':
+            s[s.index(word)] = 'seaweed'
+        
+        # make sure that all the words are in the grammar; if not, ask to repeat
+        else:
+            try:
+                parser.chart_parse([word])
+            except ValueError:
+                s = ''
+                return s
            
     return s
 
