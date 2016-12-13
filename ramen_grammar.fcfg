@@ -20,6 +20,10 @@ OI[+CONJ] -> OI[-CONJ] CJ OI[-CONJ] CJ OI
 OI[+CONJ] -> CJ Det OI[-CONJ]
 OI[+CONJ] -> CJ OI
 
+#continued orders, ex. "and another ramen"
+OI[+CONJ] -> CJ Det OI[-CONJ]
+OI[+CONJ] -> CJ OI
+
 # single order items 
 OI -> NP[NTYPE=drink]
 OI -> NP[NTYPE=app]
