@@ -48,7 +48,7 @@ class RamenBowl:
     def __str__(self):
         string = ''
         if self.spiciness is None:
-            string += 'NA '
+            string += '(spiciness)'
         else:
             string += self.spiciness + ' '
         string += self.size
