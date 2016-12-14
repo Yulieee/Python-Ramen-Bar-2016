@@ -135,7 +135,20 @@ def preprocess(sentence):
             s[s.index(word)] = 'medium'
         elif word == 'very_spicy' or word == 'extremely_spicy' or word == 'real_spicy':
             s[s.index(word)] = 'hot'
-           
+            
+        # unify toppings
+        elif word == 'tomagoyaki':
+            s[s.index(word)] = 'egg'
+        elif word == 'naruto' or word == 'fishcake':
+             s[s.index(word)] = 'fish_cake'
+        elif word == 'sprouts':
+             s[s.index(word)] = 'bean_sprouts'
+        elif word == 'nori' or word == 'sea_weed':
+             s[s.index(word)] = 'seaweed'
+        
+        # unify apps
+        elif word == 'takoyaki' or word == 'squidballs':
+             s[s.index(word)] = 'squid_balls'
     return s
 
 def parse_sentence(sentence):
