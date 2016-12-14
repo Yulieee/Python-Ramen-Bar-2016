@@ -53,11 +53,11 @@ class RamenBowl:
             string += self.spiciness + ' '
         string += self.size
         if self.broth is None:
-            string += ' NA'
+            string += ' (broth)'
         else:
             string += ' ' + self.broth
         if self.protein is None:
-            string += ' NA'
+            string += ' (protein)'
         else:
             string += ' ' + self.protein
         if len(self.toppings) > 0:
